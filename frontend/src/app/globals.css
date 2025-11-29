@@ -1,0 +1,248 @@
+/* app/globals.css */
+
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&display=swap');
+
+/* 
+  STEP 1: Define vhibes color palette using CSS variables.
+*/
+:root {
+  /* vhibes Brand Colors - Nature-Inspired Palette */
+  --vhibes-dark: #324028;        /* Dark olive green */
+  --vhibes-primary: #3CA2A6;     /* Teal blue */
+  --vhibes-secondary: #7A712E;    /* Olive green */
+  --vhibes-light: #A2E2CD;       /* Light blue/mint green */
+  --vhibes-accent: #CCC675;       /* Light olive/khaki */
+  --vhibes-bg-light: #D4FAD1;    /* Very light mint green */
+  --vhibes-white: #FFFFFF;
+
+  /* Legacy VibeCaster colors (commented for reference) */
+  /* --primary: #FF6B6B;
+  --secondary: #FFD93D;
+  --success: #6BCB77;
+  --bgLight: #F7F8FC;
+  --textDark: #222222;
+  --textMuted: #666666; */
+
+  /* vhibes theme colors */
+  --background: var(--vhibes-dark);
+  --foreground: var(--vhibes-white);
+  --card-bg: rgba(50, 64, 40, 0.1);      /* Dark olive green with opacity */
+  --card-border: rgba(60, 162, 166, 0.2); /* Teal blue with opacity */
+}
+
+/* 
+  STEP 2: Register vhibes variables with Tailwind's theme.
+*/
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* vhibes color mapping */
+  --color-vhibes-dark: var(--vhibes-dark);
+  --color-vhibes-primary: var(--vhibes-primary);
+  --color-vhibes-secondary: var(--vhibes-secondary);
+  --color-vhibes-light: var(--vhibes-light);
+  --color-vhibes-accent: var(--vhibes-accent);
+  --color-vhibes-bg-light: var(--vhibes-bg-light);
+  --color-vhibes-white: var(--vhibes-white);
+
+  /* Legacy VibeCaster color mappings (for backward compatibility) */
+  --color-vibecaster-dark: var(--vhibes-dark);
+  --color-vibecaster-purple-dark: var(--vhibes-dark);
+  --color-vibecaster-purple-medium: var(--vhibes-primary);
+  --color-vibecaster-lavender: var(--vhibes-primary);
+  --color-vibecaster-light-purple: var(--vhibes-light);
+  --color-vibecaster-pink-light: var(--vhibes-light);
+  --color-vibecaster-pink-dark: var(--vhibes-primary);
+
+  /* Legacy colors (commented for reference) */
+  /* --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-success: var(--success);
+  --color-bgLight: var(--bgLight);
+  --color-textDark: var(--textDark);
+  --color-textMuted: var(--textMuted); */
+
+  /* Font configuration */
+  --font-sans: 'DM Mono', monospace;
+  --font-mono: 'DM Mono', monospace;
+}
+
+/* 
+  STEP 3: Global styles for vhibes
+*/
+body {
+  font-family: 'DM Mono', monospace;
+  background: linear-gradient(to bottom right, #4A5A3D 0%, #7A712E 50%, #CCC675 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: #ffffff;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* vhibes gradient background */
+.vhibes-bg {
+  background: linear-gradient(to bottom right, #4A5A3D 0%, #7A712E 50%, #CCC675 100%);
+}
+
+/* Legacy class for backward compatibility */
+.vibecaster-bg {
+  background: linear-gradient(to bottom right, #4A5A3D 0%, #7A712E 50%, #CCC675 100%);
+}
+
+/* Welcome heading responsive styles */
+.welcome-heading {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  color: #3CA2A6;
+  font-size: 32px;
+  line-height: 40px;
+}
+
+@media (min-width: 768px) {
+  .welcome-heading {
+    font-size: 64px;
+    line-height: 80px;
+  }
+}
+
+/* Card styles for vhibes */
+.vhibes-card {
+  background: rgba(50, 64, 40, 0.1);
+  border: 1px solid rgba(60, 162, 166, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+}
+
+/* Legacy class for backward compatibility */
+.vibecaster-card {
+  background: rgba(50, 64, 40, 0.1);
+  border: 1px solid rgba(60, 162, 166, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+}
+
+/* Glass morphism effect */
+.glass-effect {
+  background: rgba(60, 162, 166, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(60, 162, 166, 0.1);
+}
+
+/* Responsive NFT Gallery Grid (keeping for reference) */
+.nft-gallery-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+@media (min-width: 640px) {
+  .nft-gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(211px, 1fr));
+  }
+}
+
+/* vhibes AppKit Button Styling - Comprehensive overrides */
+appkit-button,
+appkit-button * {
+  --w3m-accent: #3CA2A6 !important;
+  --w3m-accent-fill-color: #ffffff !important;
+}
+
+/* Target the shadow DOM button using ::part */
+appkit-button::part(button) {
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
+  color: white !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  font-weight: bold !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+  padding: 0.625rem 1.5rem !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+appkit-button::part(button):hover {
+  background: #A2E2CD !important;
+  background-color: #A2E2CD !important;
+  transform: scale(1.02) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+appkit-button::part(button):active {
+  transform: scale(0.98) !important;
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
+}
+
+appkit-button::part(button):focus {
+  outline: 2px solid #A2E2CD !important;
+  outline-offset: 2px !important;
+}
+
+/* Alternative selectors for AppKit button - targeting internal elements */
+appkit-button button,
+appkit-button > button,
+appkit-button w3m-button,
+appkit-button [data-testid="appkit-button"] {
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
+  color: white !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  font-weight: bold !important;
+  border: none !important;
+  padding: 0.625rem 1.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+appkit-button button:hover,
+appkit-button > button:hover,
+appkit-button w3m-button:hover,
+appkit-button [data-testid="appkit-button"]:hover {
+  background: #A2E2CD !important;
+  background-color: #A2E2CD !important;
+  transform: scale(1.02) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+appkit-button button:active,
+appkit-button > button:active,
+appkit-button w3m-button:active,
+appkit-button [data-testid="appkit-button"]:active {
+  transform: scale(0.98) !important;
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
+}
+
+/* Target any nested span or text elements */
+appkit-button button span,
+appkit-button button > span,
+appkit-button span {
+  color: white !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure the web component itself has proper styling */
+appkit-button {
+  display: inline-block !important;
+  --w3m-accent: #3CA2A6 !important;
+  --w3m-accent-fill-color: #ffffff !important;
+}

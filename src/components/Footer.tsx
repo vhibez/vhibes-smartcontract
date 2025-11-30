@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="flex items-center space-x-3">
             <Link href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
               <Image
-                src="/vibecaster-logo.png"
+                src="/vhibes-logo.png"
                 alt="vhibes Logo"
                 width={100}
                 height={100}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { FaBolt, FaHeart, FaComment, FaShare, FaSpinner, FaFilter, FaSort, FaLink, FaUsers, FaCamera, FaUpload, FaTimes, FaCheckCircle, FaImage } from 'react-icons/fa';
+import { Zap, Heart, MessageCircle, Share2, Loader2, Filter, ArrowUpDown, Link, Users, Camera, Upload, X, CheckCircle, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import ChainReactionContractArtifact from '@/abis/ChainReactionContract.json';
 import { uploadChainToIPFS } from '@/lib/ipfs';
@@ -222,7 +222,7 @@ export default function ChainReactionGallery() {
     return (
       <div className="flex items-center justify-center py-8 md:py-12">
         <div className="text-center">
-          <FaSpinner className="animate-spin text-3xl md:text-4xl text-vhibes-lavender mx-auto mb-3 md:mb-4" />
+          <Loader2 className="animate-spin w-8 h-8 md:w-10 md:h-10 text-vhibes-primary mx-auto mb-3 md:mb-4" />
           <p className="text-sm md:text-base text-vhibes-light-purple">âš¡ Loading viral chain reactions... ðŸ”¥</p>
         </div>
       </div>
@@ -234,7 +234,7 @@ export default function ChainReactionGallery() {
       {/* Header */}
       <div className="text-center mb-6 md:mb-8">
         <h2 className="text-xl md:text-2xl font-bold text-white mb-2 flex items-center justify-center gap-2">
-          <FaBolt className="text-yellow-500" />
+          <Zap className="text-yellow-500" />
           Chain Reactions
         </h2>
         <p className="text-sm md:text-base text-vhibes-light-purple">
@@ -309,7 +309,7 @@ export default function ChainReactionGallery() {
                         />
                         <div className="absolute top-2 right-2">
                           <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-yellow-500/20 flex items-center justify-center">
-                            <FaBolt size={12} className="md:w-3.5 md:h-3.5 text-yellow-400" />
+                            <Zap size={12} className="md:w-3.5 md:h-3.5 text-yellow-400" />
                           </div>
                         </div>
                       </div>
@@ -383,7 +383,7 @@ export default function ChainReactionGallery() {
                         onClick={clearForm}
                         className="absolute top-2 right-2 w-6 h-6 md:w-8 md:h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
                       >
-                        <FaTimes size={12} className="md:w-3.5 md:h-3.5" />
+                        <X size={12} className="md:w-3.5 md:h-3.5" />
                       </button>
                     </div>
                   )}
@@ -394,14 +394,14 @@ export default function ChainReactionGallery() {
                       onClick={handleCameraCapture}
                       className="flex-1 bg-vhibes-lavender hover:bg-vhibes-lavender/80 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm md:text-base"
                     >
-                      <FaCamera size={14} className="md:w-4 md:h-4" />
+                      <Camera size={14} className="md:w-4 md:h-4" />
                       Camera
                     </button>
                     <button
                       onClick={() => fileInputRef.current?.click()}
                       className="flex-1 bg-vhibes-purple-dark hover:bg-vhibes-purple-dark/80 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm md:text-base"
                     >
-                      <FaUpload size={14} className="md:w-4 md:h-4" />
+                      <Upload size={14} className="md:w-4 md:h-4" />
                       Upload
                     </button>
                   </div>

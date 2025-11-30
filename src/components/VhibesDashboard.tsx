@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { FaChartLine, FaTrophy, FaFire, FaSnowflake, FaBolt } from 'react-icons/fa';
+import { TrendingUp, Trophy, Flame, Snowflake, Zap } from 'lucide-react';
 import RoastMe from './RoastMe';
 import Leaderboard from './Leaderboard';
 import RoastGallery from './RoastGallery';
@@ -69,27 +69,27 @@ export default function VhibesDashboard() {
             { 
               id: 'activity', 
               label: 'Activity', 
-              icon: FaChartLine 
+              icon: TrendingUp 
             },
             { 
               id: 'roastme', 
               label: 'Roast Me', 
-              icon: FaFire 
+              icon: Flame 
             },
             { 
               id: 'icebreaker', 
               label: 'Icebreaker', 
-              icon: FaSnowflake 
+              icon: Snowflake 
             },
             { 
               id: 'chainreaction', 
               label: 'Chain Reaction', 
-              icon: FaBolt 
+              icon: Zap 
             },
             { 
               id: 'leaderboard', 
               label: 'Leaderboard', 
-              icon: FaTrophy 
+              icon: Trophy 
             },
           ].map((tab) => {
             const IconComponent = tab.icon;

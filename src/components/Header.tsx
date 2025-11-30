@@ -24,7 +24,7 @@ export default function Header() {
           <div className="flex items-center space-x-3">
             <Link href="/" className="cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105">
               <Image
-                src="/vibecaster-logo.png"
+                src="/vhibes-logo.png"
                 alt="vhibes Logo"
                 width={120}
                 height={120}

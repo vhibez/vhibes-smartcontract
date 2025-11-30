@@ -150,7 +150,7 @@ const WalletModal = () => {
       <button
         ref={triggerRef}
         onClick={() => setIsModalOpen(!isModalOpen)}
-        className="flex items-center justify-center gap-2 rounded-lg bg-[#FF6B6B] px-4 py-2 font-semibold text-white transition-transform hover:scale-105"
+        className="flex items-center justify-center gap-2 rounded-lg bg-[#3CA2A6] px-4 py-2 font-semibold text-white transition-transform hover:scale-105 hover:bg-[#A2E2CD]"
       >
         Connect Wallet
       </button>
@@ -191,7 +191,7 @@ const WalletModal = () => {
                       disabled={pendingConnectorUID === farcasterConnector.uid}
                       className={`w-full flex gap-4 items-center p-4 border-2 rounded-xl transition-all ${
                         isInFarcasterFrame 
-                          ? 'bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200 hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100' 
+                          ? 'bg-gradient-to-r from-[#A2E2CD]/20 to-[#CCC675]/20 border-[#3CA2A6]/30 hover:bg-gradient-to-r hover:from-[#A2E2CD]/30 hover:to-[#CCC675]/30' 
                           : 'bg-gray-100 border-gray-300 cursor-not-allowed opacity-60'
                       }`}
                     >
@@ -284,7 +284,7 @@ const WalletModal = () => {
                         href="https://ethereum.org/en/wallets/find-wallet/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-1 text-xs text-[#00d2ff] hover:underline"
+                        className="flex items-center justify-center gap-1 text-xs text-[#3CA2A6] hover:text-[#A2E2CD] hover:underline"
                       >
                         <span>Don't have a wallet? Get one here</span>
                         <ExternalLink className="w-3 h-3" />

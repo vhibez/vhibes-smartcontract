@@ -19,9 +19,11 @@ export default function Home() {
       {/* vhibes Header */}
       <Header />
 
-      {/* Main vhibes Dashboard */}
-      <div className="flex-1">
-        <VhibesDashboard />
+      {/* Main vhibes Dashboard - Centralized Layout */}
+      <div className="flex-1 w-full">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-8">
+          <VhibesDashboard />
+        </div>
       </div>
 
       {/* vhibes Footer */}

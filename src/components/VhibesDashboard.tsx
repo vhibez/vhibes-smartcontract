@@ -27,7 +27,7 @@ export default function VhibesDashboard() {
 
   if (!isConnected) {
     return (
-      <div className="text-center py-12 md:py-20 px-4">
+      <div className="w-full max-w-2xl mx-auto text-center py-12 md:py-20">
         <div className="text-4xl md:text-6xl mb-4">{currentEmoji}</div>
         <h2 className="text-xl md:text-2xl font-bold text-vhibes-primary mb-4">Welcome to vhibes</h2>
         <p className="text-sm md:text-base text-vhibes-light">Connect your wallet to start vibing!</p>
@@ -36,9 +36,9 @@ export default function VhibesDashboard() {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="w-full max-w-7xl mx-auto overflow-x-hidden">
       {/* Welcome Section */}
-      <div className="text-center py-8 md:py-14 px-4 mt-4 md:mt-6 mb-6 md:mb-10">
+      <div className="text-center py-6 md:py-10 lg:py-12 mb-6 md:mb-8">
         <div className="text-3xl md:text-4xl mb-4 animate-bounce">{currentEmoji}</div>
         <h1 className="text-2xl md:text-4xl font-bold mb-4">
           <span className="text-white">Gm </span>
@@ -63,8 +63,8 @@ export default function VhibesDashboard() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex justify-center mb-6 md:mb-8 px-2">
-        <div className="flex flex-wrap justify-center space-x-1 bg-vhibes-dark/30 backdrop-blur-sm rounded-lg p-1 border border-vhibes-primary/20">
+      <div className="flex justify-center mb-6 md:mb-8">
+        <div className="flex flex-wrap justify-center space-x-1 bg-vhibes-dark/30 backdrop-blur-sm rounded-lg p-1 border border-vhibes-primary/20 shadow-md">
           {[
             { 
               id: 'activity', 
@@ -124,16 +124,16 @@ export default function VhibesDashboard() {
         </div>
       </div>
 
-      {/* Tab Content */}
-      <div className="px-2 md:px-4 pb-6 md:pb-8 overflow-x-hidden">
+      {/* Tab Content - Centralized with consistent max-width */}
+      <div className="w-full overflow-x-hidden">
         {activeTab === 'activity' && (
-          <div className="max-w-6xl mx-auto">
+          <div className="w-full max-w-6xl mx-auto">
             <Activity setActiveTab={setActiveTab} />
           </div>
         )}
 
         {activeTab === 'leaderboard' && (
-          <div className="max-w-4xl mx-auto">
+          <div className="w-full max-w-4xl mx-auto">
             <div className="bg-vhibes-dark/30 backdrop-blur-sm rounded-lg border border-vhibes-primary/20 p-4 md:p-6">
               <Leaderboard />
             </div>
@@ -141,7 +141,7 @@ export default function VhibesDashboard() {
         )}
 
         {activeTab === 'roastme' && (
-          <div className="max-w-4xl mx-auto">
+          <div className="w-full max-w-4xl mx-auto">
             <div className="bg-vhibes-dark/30 backdrop-blur-sm rounded-lg border border-vhibes-primary/20 p-4 md:p-6">
               <RoastMe />
             </div>
@@ -149,7 +149,7 @@ export default function VhibesDashboard() {
         )}
 
         {activeTab === 'icebreaker' && (
-          <div className="max-w-4xl mx-auto">
+          <div className="w-full max-w-4xl mx-auto">
             <div className="bg-vhibes-dark/30 backdrop-blur-sm rounded-lg border border-vhibes-primary/20 p-4 md:p-6">
               <Icebreaker />
             </div>
@@ -157,7 +157,7 @@ export default function VhibesDashboard() {
         )}
 
         {activeTab === 'chainreaction' && (
-          <div className="max-w-4xl mx-auto">
+          <div className="w-full max-w-4xl mx-auto">
             <div className="bg-vhibes-dark/30 backdrop-blur-sm rounded-lg border border-vhibes-primary/20 p-4 md:p-6">
               <ChainReactionGallery />
             </div>

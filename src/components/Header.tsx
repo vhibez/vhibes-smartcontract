@@ -17,18 +17,19 @@ export default function Header() {
   const isAdmin = isConnected && address && adminAddresses.includes(address.toLowerCase());
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-black/20 border-b border-vibecaster-lavender/10">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-vhibes-dark/40 border-b border-vhibes-primary/20 shadow-lg shadow-vhibes-primary/5">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between py-3 md:py-4">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <Link href="/" className="cursor-pointer hover:opacity-80 transition-opacity">
+            <Link href="/" className="cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105">
               <Image
                 src="/vibecaster-logo.png"
                 alt="vhibes Logo"
-                width={150}
-                height={150}
-                className="rounded-lg"
+                width={120}
+                height={120}
+                className="rounded-lg w-20 h-20 md:w-24 md:h-24 object-contain"
+                priority
               />
             </Link>
           </div>
@@ -36,11 +37,14 @@ export default function Header() {
           {/* Desktop Navigation - Only Admin */}
           <nav className="hidden md:flex items-center space-x-6">
             {isAdmin && (
-              <a href="/admin" className="text-vibecaster-pink-light hover:text-vibecaster-lavender transition-colors">
+              <a 
+                href="/admin" 
+                className="text-vhibes-light hover:text-vhibes-primary transition-colors duration-300 font-medium px-3 py-1.5 rounded-md hover:bg-vhibes-primary/10"
+              >
                 Admin
               </a>
             )}
-            </nav>
+          </nav>
 
           {/* Wallet Connection */}
           <div className="flex items-center space-x-4">

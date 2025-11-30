@@ -7,10 +7,13 @@
   STEP 1: Define vhibes color palette using CSS variables.
 */
 :root {
-  /* vhibes Brand Colors - Coral Red Palette */
-  --vhibes-dark: #C63A35;
-  --vhibes-primary: #EA504B;
-  --vhibes-light: #FF7873;
+  /* vhibes Brand Colors - Nature-Inspired Palette */
+  --vhibes-dark: #324028;        /* Dark olive green */
+  --vhibes-primary: #3CA2A6;     /* Teal blue */
+  --vhibes-secondary: #7A712E;    /* Olive green */
+  --vhibes-light: #A2E2CD;       /* Light blue/mint green */
+  --vhibes-accent: #CCC675;       /* Light olive/khaki */
+  --vhibes-bg-light: #D4FAD1;    /* Very light mint green */
   --vhibes-white: #FFFFFF;
 
   /* Legacy VibeCaster colors (commented for reference) */
@@ -24,8 +27,8 @@
   /* vhibes theme colors */
   --background: var(--vhibes-dark);
   --foreground: var(--vhibes-white);
-  --card-bg: rgba(198, 58, 53, 0.1);
-  --card-border: rgba(234, 80, 75, 0.2);
+  --card-bg: rgba(50, 64, 40, 0.1);      /* Dark olive green with opacity */
+  --card-border: rgba(60, 162, 166, 0.2); /* Teal blue with opacity */
 }
 
 /* 
@@ -38,7 +41,10 @@
   /* vhibes color mapping */
   --color-vhibes-dark: var(--vhibes-dark);
   --color-vhibes-primary: var(--vhibes-primary);
+  --color-vhibes-secondary: var(--vhibes-secondary);
   --color-vhibes-light: var(--vhibes-light);
+  --color-vhibes-accent: var(--vhibes-accent);
+  --color-vhibes-bg-light: var(--vhibes-bg-light);
   --color-vhibes-white: var(--vhibes-white);
 
   /* Legacy VibeCaster color mappings (for backward compatibility) */
@@ -68,7 +74,7 @@
 */
 body {
   font-family: 'DM Mono', monospace;
-  background: linear-gradient(180deg, #C63A35 0%, #EA504B 100%);
+  background: linear-gradient(180deg, #324028 0%, #3CA2A6 100%);
   min-height: 100vh;
   color: #ffffff;
   overflow-x: hidden;
@@ -84,35 +90,35 @@ html {
 
 /* vhibes gradient background */
 .vhibes-bg {
-  background: linear-gradient(180deg, #C63A35 0%, #EA504B 100%);
+  background: linear-gradient(180deg, #324028 0%, #3CA2A6 100%);
 }
 
 /* Legacy class for backward compatibility */
 .vibecaster-bg {
-  background: linear-gradient(180deg, #C63A35 0%, #EA504B 100%);
+  background: linear-gradient(180deg, #324028 0%, #3CA2A6 100%);
 }
 
 /* Card styles for vhibes */
 .vhibes-card {
-  background: rgba(198, 58, 53, 0.1);
-  border: 1px solid rgba(234, 80, 75, 0.2);
+  background: rgba(50, 64, 40, 0.1);
+  border: 1px solid rgba(60, 162, 166, 0.2);
   backdrop-filter: blur(10px);
   border-radius: 12px;
 }
 
 /* Legacy class for backward compatibility */
 .vibecaster-card {
-  background: rgba(198, 58, 53, 0.1);
-  border: 1px solid rgba(234, 80, 75, 0.2);
+  background: rgba(50, 64, 40, 0.1);
+  border: 1px solid rgba(60, 162, 166, 0.2);
   backdrop-filter: blur(10px);
   border-radius: 12px;
 }
 
 /* Glass morphism effect */
 .glass-effect {
-  background: rgba(234, 80, 75, 0.05);
+  background: rgba(60, 162, 166, 0.05);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(234, 80, 75, 0.1);
+  border: 1px solid rgba(60, 162, 166, 0.1);
 }
 
 /* Responsive NFT Gallery Grid (keeping for reference) */
@@ -126,37 +132,99 @@ html {
   }
 }
 
-/* vhibes AppKit Button Styling */
+/* vhibes AppKit Button Styling - Comprehensive overrides */
+appkit-button,
+appkit-button * {
+  --w3m-accent: #3CA2A6 !important;
+  --w3m-accent-fill-color: #ffffff !important;
+}
+
+/* Target the shadow DOM button using ::part */
 appkit-button::part(button) {
-  background: #EA504B !important;
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
   color: white !important;
+  color: #ffffff !important;
   border-radius: 8px !important;
+  border-radius: 0.5rem !important;
   font-weight: 600 !important;
+  font-weight: bold !important;
   transition: all 0.3s ease !important;
   border: none !important;
+  padding: 0.625rem 1.5rem !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
 appkit-button::part(button):hover {
-  background: #FF7873 !important;
+  background: #A2E2CD !important;
+  background-color: #A2E2CD !important;
+  transform: scale(1.02) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
 }
 
 appkit-button::part(button):active {
   transform: scale(0.98) !important;
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
 }
 
-/* Alternative selectors for AppKit button */
-appkit-button button {
-  background: #EA504B !important;
+appkit-button::part(button):focus {
+  outline: 2px solid #A2E2CD !important;
+  outline-offset: 2px !important;
+}
+
+/* Alternative selectors for AppKit button - targeting internal elements */
+appkit-button button,
+appkit-button > button,
+appkit-button w3m-button,
+appkit-button [data-testid="appkit-button"] {
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
   color: white !important;
+  color: #ffffff !important;
   border-radius: 8px !important;
+  border-radius: 0.5rem !important;
   font-weight: 600 !important;
+  font-weight: bold !important;
   border: none !important;
+  padding: 0.625rem 1.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
-appkit-button button:hover {
-  background: #FF7873 !important;
+appkit-button button:hover,
+appkit-button > button:hover,
+appkit-button w3m-button:hover,
+appkit-button [data-testid="appkit-button"]:hover {
+  background: #A2E2CD !important;
+  background-color: #A2E2CD !important;
+  transform: scale(1.02) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
 }
 
-appkit-button button:active {
+appkit-button button:active,
+appkit-button > button:active,
+appkit-button w3m-button:active,
+appkit-button [data-testid="appkit-button"]:active {
   transform: scale(0.98) !important;
+  background: #3CA2A6 !important;
+  background-color: #3CA2A6 !important;
+}
+
+/* Target any nested span or text elements */
+appkit-button button span,
+appkit-button button > span,
+appkit-button span {
+  color: white !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Ensure the web component itself has proper styling */
+appkit-button {
+  display: inline-block !important;
+  --w3m-accent: #3CA2A6 !important;
+  --w3m-accent-fill-color: #ffffff !important;
 }

@@ -159,7 +159,7 @@ const WalletConnection = () => {
               disconnect();
               setIsDropdownOpen(false);
             }}
-            className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-[#FF6B6B] hover:bg-red-500/10"
+            className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-[#3CA2A6] hover:bg-[#3CA2A6]/10"
           >
             <LogOut className="w-5 h-5" />
             <span>Disconnect</span>

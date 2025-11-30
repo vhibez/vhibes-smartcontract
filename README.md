@@ -88,6 +88,29 @@ vhibes-frontend/
 - **AI Integration**: Hugging Face Inference API
 - **Storage**: IPFS via Pinata
 
+## 🎨 Design System
+
+### Color Palette
+
+vhibes uses a nature-inspired color scheme that creates a calming and modern aesthetic:
+
+| Color | Hex Code | Usage |
+|-------|----------|-------|
+| **Dark Olive Green** | `#324028` | Primary dark background |
+| **Olive Green** | `#7A712E` | Secondary accent |
+| **Light Olive/Khaki** | `#CCC675` | Accent color |
+| **Teal Blue** | `#3CA2A6` | Primary brand color |
+| **Light Blue/Mint Green** | `#A2E2CD` | Light accent/hover states |
+| **Very Light Mint Green** | `#D4FAD1` | Background light variant |
+
+### Color Usage
+
+- **Primary Background**: Dark olive green (`#324028`) to Teal blue (`#3CA2A6`) gradient
+- **Primary Actions**: Teal blue (`#3CA2A6`) for buttons and interactive elements
+- **Hover States**: Light blue/mint green (`#A2E2CD`)
+- **Accents**: Olive green (`#7A712E`) and light olive/khaki (`#CCC675`) for highlights
+- **Light Backgrounds**: Very light mint green (`#D4FAD1`) for cards and overlays
+
 ## 🔧 Configuration
 
 ### Environment Variables

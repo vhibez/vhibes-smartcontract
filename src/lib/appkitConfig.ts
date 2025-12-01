@@ -3,6 +3,7 @@ import { cookieStorage, createStorage } from '@wagmi/core'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 // import { baseSepolia } from '@reown/appkit/networks' // Base Sepolia - commented out
 import { base } from '@reown/appkit/networks' // Base Mainnet
+import { config as wagmiConfig } from './wagmiConfig'
 
 // Get projectId from your existing env variable
 export const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
@@ -14,15 +15,11 @@ if (!projectId) {
 export const networks = [base] // Base Mainnet
 // export const networks = [baseSepolia] // Base Sepolia - commented out
 
-// Set up the Wagmi Adapter (Config) for AppKit
+// Set up the Wagmi Adapter using the wagmi config that has all connectors
+// This ensures AppKit can access all browser wallets (injected, MetaMask, Coinbase, etc.)
 export const wagmiAdapter = new WagmiAdapter({
-  storage: createStorage({
-    storage: cookieStorage
-  }),
-  ssr: true,
+  wagmiConfig: wagmiConfig, // Use the config from wagmiConfig.ts that has all connectors
   projectId,
   networks
 })
-
-export const config = wagmiAdapter.wagmiConfig
 

@@ -19,6 +19,7 @@ const metadata = {
 }
 
 // Create the AppKit modal
+// AppKit will automatically detect injected wallets from the WagmiProvider's config
 const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,

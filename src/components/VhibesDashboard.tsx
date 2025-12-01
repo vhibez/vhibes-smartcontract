@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { TrendingUp, Trophy, Flame, Snowflake, Zap } from 'lucide-react';
+import { TrendingUp, Trophy, Flame, Snowflake, Zap, Plus, Share2, ArrowRight } from 'lucide-react';
 import RoastMe from './RoastMe';
 import Leaderboard from './Leaderboard';
 import RoastGallery from './RoastGallery';
@@ -13,7 +13,7 @@ import Activity from './Activity';
 export default function VhibesDashboard() {
   const { address, isConnected } = useAccount();
   const [activeTab, setActiveTab] = useState('activity');
-  const [currentEmoji, setCurrentEmoji] = useState('🚀');
+  const [currentEmoji, setCurrentEmoji] = useState('💎');
 
   // Rotate emojis every 5 seconds
   useEffect(() => {
@@ -25,41 +25,39 @@ export default function VhibesDashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!isConnected) {
-    return (
-      <div className="w-full max-w-2xl mx-auto text-center py-12 md:py-20">
-        <div className="text-4xl md:text-6xl mb-4">{currentEmoji}</div>
-        <h2 className="text-xl md:text-2xl font-bold text-vhibes-primary mb-4">Welcome to vhibes</h2>
-        <p className="text-sm md:text-base text-vhibes-light">Connect your wallet to start vibing!</p>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full max-w-7xl mx-auto overflow-x-hidden">
       {/* Welcome Section */}
       <div className="text-center py-6 md:py-10 lg:py-12 mb-6 md:mb-8">
-        <div className="text-3xl md:text-4xl mb-4 animate-bounce">{currentEmoji}</div>
-        <h1 className="text-2xl md:text-4xl font-bold mb-4">
-          <span className="text-white">Gm </span>
-          <span className="text-vhibes-primary">vhibes</span>
-          <span className="text-white"> fam!</span>
-        </h1>
-        <p className="text-base md:text-xl text-vhibes-light mb-4 md:mb-6">
-          Another day to roast, create & vibe! <br className="hidden md:block" />
-          Share your <span className="font-bold text-vhibes-primary">epic moments and vibes</span> with your social community on X, Farcaster & beyond! 🚀✨
+        <div className="text-3xl md:text-4xl mb-4">{currentEmoji}</div>
+        <h2 className="mb-4 welcome-heading">
+          Welcome to Vhibes
+        </h2>
+        <p className="text-sm md:text-base text-vhibes-light mb-4 md:mb-6">
+          {isConnected ? (
+            "Another day to roast, create & vibe!"
+          ) : (
+            "Connect your wallet to start vibing!"
+          )}
         </p>
-        <div className="flex justify-center space-x-2 md:space-x-4 text-xs md:text-sm">
-          <span className="bg-vhibes-primary/20 text-vhibes-primary px-2 md:px-3 py-1 rounded-full">
-            Roast
-          </span>
-          <span className="bg-vhibes-primary/20 text-vhibes-primary px-2 md:px-3 py-1 rounded-full">
-            Create
-          </span>
-          <span className="bg-vhibes-primary/20 text-vhibes-primary px-2 md:px-3 py-1 rounded-full">
-            Connect
-          </span>
-        </div>
+        {isConnected && (
+          <div className="flex justify-center items-center space-x-2 md:space-x-3 text-sm md:text-base">
+            <span className="bg-vhibes-primary/20 text-vhibes-primary px-3 md:px-4 py-1 rounded-full flex items-center gap-1.5">
+              <Flame className="w-4 h-3 md:w-5 md:h-4" />
+              Roast
+            </span>
+            <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-vhibes-primary/60" />
+            <span className="bg-vhibes-primary/20 text-vhibes-primary px-3 md:px-4 py-1 rounded-full flex items-center gap-1.5">
+              <Plus className="w-4 h-4 md:w-5 md:h-5" />
+              Create
+            </span>
+            <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-vhibes-primary/60" />
+            <span className="bg-vhibes-primary/20 text-vhibes-primary px-3 md:px-4 py-1 rounded-full flex items-center gap-1.5">
+              <Share2 className="w-4 h-4 md:w-5 md:h-5" />
+              Share
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Navigation Tabs */}

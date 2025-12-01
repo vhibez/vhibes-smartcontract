@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { FaFire, FaSnowflake, FaBolt, FaSync, FaTrophy, FaMedal, FaCrown, FaStar, FaLock } from 'react-icons/fa';
-import { HiSparkles } from 'react-icons/hi';
+import { Flame, Snowflake, Zap, RefreshCw, Trophy, Medal, Crown, Star, Lock, Sparkles } from 'lucide-react';
 import VhibesPointsArtifact from '@/abis/VhibesPoints.json';
 import VhibesBadgesArtifact from '@/abis/VhibesBadges.json';
 import RoastMeContractArtifact from '@/abis/RoastMeContract.json';
@@ -398,7 +397,7 @@ export default function Activity({ setActiveTab }: ActivityProps) {
             <div className="flex items-center justify-between mb-3 md:mb-4">
               <h2 className="text-lg md:text-xl font-bold text-white">On-chain Points</h2>
               <button className="text-vhibes-lavender hover:text-vhibes-light-purple transition-colors">
-                <FaSync size={14} className="md:w-4 md:h-4" />
+                <RefreshCw size={14} className="md:w-4 md:h-4" />
               </button>
             </div>
             <div className="flex items-center justify-between">
@@ -501,11 +500,11 @@ export default function Activity({ setActiveTab }: ActivityProps) {
                   <div key={index} className="flex items-center justify-between p-2 md:p-3 rounded-lg bg-vhibes-dark/50 border border-vhibes-lavender/20">
                     <div className="flex items-center gap-2 md:gap-3">
                       <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-vhibes-lavender/20 flex items-center justify-center">
-                        {activity.type === "roast" && <FaFire size={12} className="md:w-3.5 md:h-3.5 text-red-400" />}
-                        {activity.type === "icebreaker" && <FaSnowflake size={12} className="md:w-3.5 md:h-3.5 text-blue-400" />}
-                        {activity.type === "chain" && <FaBolt size={12} className="md:w-3.5 md:h-3.5 text-yellow-400" />}
-                        {activity.type === "points" && <FaTrophy size={12} className="md:w-3.5 md:h-3.5 text-yellow-400" />}
-                        {activity.type === "welcome" && <HiSparkles size={12} className="md:w-3.5 md:h-3.5 text-vhibes-lavender" />}
+                        {activity.type === "roast" && <Flame size={12} className="md:w-3.5 md:h-3.5 text-red-400" />}
+                        {activity.type === "icebreaker" && <Snowflake size={12} className="md:w-3.5 md:h-3.5 text-blue-400" />}
+                        {activity.type === "chain" && <Zap size={12} className="md:w-3.5 md:h-3.5 text-yellow-400" />}
+                        {activity.type === "points" && <Trophy size={12} className="md:w-3.5 md:h-3.5 text-yellow-400" />}
+                        {activity.type === "welcome" && <Sparkles size={12} className="md:w-3.5 md:h-3.5 text-vhibes-lavender" />}
                       </div>
                       <div>
                         <div className="text-sm md:text-base text-white font-medium">{activity.title}</div>
@@ -525,7 +524,7 @@ export default function Activity({ setActiveTab }: ActivityProps) {
                   {recentRoasts.map((item) => (
                     <div key={item.id} className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-lg bg-vhibes-dark/50 border border-vhibes-lavender/20">
                       <div className="w-8 h-8 md:w-12 md:h-12 rounded-lg bg-vhibes-lavender/20 flex items-center justify-center">
-                        <FaFire size={16} className="md:w-5 md:h-5 text-red-400" />
+                        <Flame size={16} className="md:w-5 md:h-5 text-red-400" />
                       </div>
                       <div className="flex-1">
                         <h4 className="text-sm md:text-base text-white font-medium">{item.title}</h4>
@@ -548,7 +547,7 @@ export default function Activity({ setActiveTab }: ActivityProps) {
                   {recentChainReactions.map((item) => (
                     <div key={item.id} className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-lg bg-vhibes-dark/50 border border-vhibes-lavender/20">
                       <div className="w-8 h-8 md:w-12 md:h-12 rounded-lg bg-vhibes-lavender/20 flex items-center justify-center">
-                        <FaBolt size={16} className="md:w-5 md:h-5 text-yellow-400" />
+                        <Zap size={16} className="md:w-5 md:h-5 text-yellow-400" />
                       </div>
                       <div className="flex-1">
                         <h4 className="text-sm md:text-base text-white font-medium">{item.title}</h4>
@@ -643,7 +642,7 @@ export default function Activity({ setActiveTab }: ActivityProps) {
                           }}
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <FaLock size={16} className="text-vhibes-lavender/50" />
+                          <Lock size={16} className="text-vhibes-lavender/50" />
                         </div>
                       </div>
                     )}

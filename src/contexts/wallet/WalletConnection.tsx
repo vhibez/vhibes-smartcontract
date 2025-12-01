@@ -70,7 +70,7 @@ const WalletConnection = () => {
         className={`flex items-center gap-2 rounded-lg px-3 py-2 font-mono text-sm font-semibold transition-colors relative ${
           isWrongChain 
             ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200" 
-            : "bg-vibecaster-light-purple text-white hover:bg-vibecaster-lavender"
+            : "bg-vibecaster-lavender text-white hover:bg-vibecaster-light-purple"
         }`}
       >
         {/* Warning indicator for wrong chain */}

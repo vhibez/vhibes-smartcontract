@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
-import { FaFire, FaHeart, FaComment, FaShare, FaSpinner, FaFilter, FaSort } from "react-icons/fa";
+import { Flame, Heart, MessageCircle, Share2, Loader2, Filter, ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 
 export default function RoastGallery() {
@@ -137,7 +137,7 @@ export default function RoastGallery() {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <FaSpinner className="animate-spin text-4xl text-vhibes-primary mx-auto mb-4" />
+          <Loader2 className="animate-spin w-10 h-10 text-vhibes-primary mx-auto mb-4" />
           <p className="text-vhibes-light">Loading roast gallery...</p>
         </div>
       </div>
@@ -149,7 +149,7 @@ export default function RoastGallery() {
       {/* Header */}
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-white mb-2 flex items-center justify-center gap-2">
-          <FaFire className="text-red-500" />
+          <Flame className="text-red-500" />
           Roast Gallery
         </h2>
         <p className="text-vhibes-light">
@@ -161,9 +161,9 @@ export default function RoastGallery() {
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
         <div className="flex bg-vhibes-dark/20 rounded-lg p-1">
           {[
-            { id: "all", label: "All Roasts", icon: FaFire },
-            { id: "trending", label: "Trending", icon: FaHeart },
-            { id: "recent", label: "Recent", icon: FaComment }
+            { id: "all", label: "All Roasts", icon: Flame },
+            { id: "trending", label: "Trending", icon: Heart },
+            { id: "recent", label: "Recent", icon: MessageCircle }
           ].map((tab) => {
             const Icon = tab.icon;
             return (
@@ -184,7 +184,7 @@ export default function RoastGallery() {
         </div>
 
         <div className="flex items-center gap-2">
-          <FaSort className="text-vhibes-light" size={16} />
+          <ArrowUpDown className="text-vhibes-light" size={16} />
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
@@ -235,7 +235,7 @@ export default function RoastGallery() {
               />
               <div className="absolute top-2 right-2">
                 <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
-                  <FaFire size={14} className="text-red-400" />
+                  <Flame size={14} className="text-red-400" />
                 </div>
               </div>
             </div>
@@ -256,16 +256,16 @@ export default function RoastGallery() {
                       : "text-vhibes-light hover:text-red-500"
                   }`}
                 >
-                  <FaHeart size={14} />
+                  <Heart size={14} />
                   <span className="text-xs">{roast.likes}</span>
                 </button>
                 <button className="flex items-center gap-1 text-vhibes-light hover:text-white transition-colors">
-                  <FaComment size={14} />
+                  <MessageCircle size={14} />
                   <span className="text-xs">{roast.comments}</span>
                 </button>
               </div>
               <button className="text-vhibes-light hover:text-white transition-colors">
-                <FaShare size={14} />
+                <Share2 size={14} />
               </button>
             </div>
           </div>

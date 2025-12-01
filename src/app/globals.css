@@ -74,12 +74,14 @@
 */
 body {
   font-family: 'DM Mono', monospace;
-  background: linear-gradient(180deg, #324028 0%, #3CA2A6 100%);
+  background: linear-gradient(to bottom right, #4A5A3D 0%, #7A712E 50%, #CCC675 100%);
+  background-attachment: fixed;
   min-height: 100vh;
   color: #ffffff;
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+  position: relative;
 }
 
 html {
@@ -90,12 +92,28 @@ html {
 
 /* vhibes gradient background */
 .vhibes-bg {
-  background: linear-gradient(180deg, #324028 0%, #3CA2A6 100%);
+  background: linear-gradient(to bottom right, #4A5A3D 0%, #7A712E 50%, #CCC675 100%);
 }
 
 /* Legacy class for backward compatibility */
 .vibecaster-bg {
-  background: linear-gradient(180deg, #324028 0%, #3CA2A6 100%);
+  background: linear-gradient(to bottom right, #4A5A3D 0%, #7A712E 50%, #CCC675 100%);
+}
+
+/* Welcome heading responsive styles */
+.welcome-heading {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  color: #3CA2A6;
+  font-size: 32px;
+  line-height: 40px;
+}
+
+@media (min-width: 768px) {
+  .welcome-heading {
+    font-size: 64px;
+    line-height: 80px;
+  }
 }
 
 /* Card styles for vhibes */

@@ -17,14 +17,14 @@ export default function Header() {
   const isAdmin = isConnected && address && adminAddresses.includes(address.toLowerCase());
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-vhibes-dark/40 border-b border-vhibes-primary/20 shadow-lg shadow-vhibes-primary/5">
+    <header className="sticky top-0 z-50 w-full">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-3 md:py-4">
+        <div className="flex items-center justify-between py-4 md:py-6">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <Link href="/" className="cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105">
               <Image
-                src="/vibecaster-logo.png"
+                src="/vhibes-logo.png"
                 alt="vhibes Logo"
                 width={120}
                 height={120}
@@ -39,7 +39,7 @@ export default function Header() {
             {isAdmin && (
               <a 
                 href="/admin" 
-                className="text-vhibes-light hover:text-vhibes-primary transition-colors duration-300 font-medium px-3 py-1.5 rounded-md hover:bg-vhibes-primary/10"
+                className="text-vhibes-light hover:text-vhibes-primary transition-colors duration-300 font-medium"
               >
                 Admin
               </a>

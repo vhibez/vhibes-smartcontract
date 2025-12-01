@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
-import { FaSnowflake } from 'react-icons/fa';
+import { Snowflake } from 'lucide-react';
 import IcebreakerContractArtifact from '@/abis/IcebreakerContract.json';
 
 // Contract address from deployment (Base Mainnet)
@@ -234,7 +234,7 @@ export default function Icebreaker() {
       {/* Header */}
       <div className="text-center">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-vhibes-lavender mb-2 flex items-center justify-center gap-2">
-          <FaSnowflake className="text-blue-400" /> Icebreaker
+          <Snowflake className="text-blue-400" /> Icebreaker
         </h2>
         <p className="text-sm md:text-base text-vhibes-light-purple">Break the ice with fun prompts and polls!</p>
       </div>

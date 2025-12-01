@@ -6,6 +6,8 @@ import { base } from "wagmi/chains"; // Base Mainnet
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Wallet, AlertTriangle, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useWalletInfo } from "@reown/appkit/react";
+import Image from "next/image";
 
 const shortenAddress = (address: string) => {
   if (!address) return "";
@@ -14,6 +16,8 @@ const shortenAddress = (address: string) => {
 
 const WalletConnection = () => {
   const account = useAccount();
+  const { connector } = account;
+  const { walletInfo } = useWalletInfo();
   const { disconnect } = useDisconnect();
   const { switchChain, isPending: isSwitching } = useSwitchChain();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,6 +31,62 @@ const WalletConnection = () => {
     if (account.address) {
       navigator.clipboard.writeText(account.address);
     }
+  };
+
+  // Get wallet icon from walletInfo or connector
+  const getWalletIcon = () => {
+    const sanitizeImageUrl = (url: string) => {
+      if (!url) return null;
+      try {
+        const trimmedUrl = url.trim();
+        if (trimmedUrl.startsWith('data:')) {
+          return trimmedUrl;
+        }
+        new URL(trimmedUrl);
+        return trimmedUrl;
+      } catch {
+        return null;
+      }
+    };
+
+    // Try walletInfo first (from AppKit)
+    if (walletInfo?.icon) {
+      const sanitizedUrl = sanitizeImageUrl(walletInfo.icon);
+      if (sanitizedUrl) {
+        return (
+          <Image
+            src={sanitizedUrl}
+            alt={walletInfo.name || "Wallet"}
+            width={16}
+            height={16}
+            className="w-4 h-4 rounded-full"
+            onError={() => {}}
+            unoptimized
+          />
+        );
+      }
+    }
+
+    // Fall back to connector icon
+    if (connector?.icon) {
+      const sanitizedUrl = sanitizeImageUrl(connector.icon);
+      if (sanitizedUrl) {
+        return (
+          <Image
+            src={sanitizedUrl}
+            alt={connector.name || "Wallet"}
+            width={16}
+            height={16}
+            className="w-4 h-4 rounded-full"
+            onError={() => {}}
+            unoptimized
+          />
+        );
+      }
+    }
+
+    // Default generic wallet icon
+    return <Wallet className="h-4 w-4" />;
   };
 
   const handleSwitchChain = async () => {
@@ -70,21 +130,21 @@ const WalletConnection = () => {
         className={`flex items-center gap-2 rounded-lg px-3 py-2 font-mono text-sm font-semibold transition-colors relative ${
           isWrongChain 
             ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200" 
-            : "bg-vibecaster-lavender text-white hover:bg-vibecaster-light-purple"
+            : "bg-vhibes-primary text-white hover:bg-vhibes-light"
         }`}
       >
         {/* Warning indicator for wrong chain */}
         {isWrongChain && (
           <div className="absolute -top-1 -right-1 h-3 w-3 bg-yellow-500 rounded-full animate-pulse border-2 border-white"></div>
         )}
-        <Wallet className="h-4 w-4" />
+        {getWalletIcon()}
         <span>{shortenAddress(account.address!)}</span>
         {isWrongChain && <AlertTriangle className="h-4 w-4 text-yellow-600" />}
         <Icon icon="radix-icons:caret-down" className="w-4 h-4" />
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 top-full mt-2 w-72 origin-top-right rounded-xl border border-vibecaster-lavender/20 bg-vibecaster-dark/90 backdrop-blur-md p-2 shadow-lg z-50">
+        <div className="absolute right-0 top-full mt-2 w-72 origin-top-right rounded-xl border border-vhibes-primary/20 bg-vhibes-dark/90 backdrop-blur-md p-2 shadow-lg z-50">
           {/* Chain warning section at top */}
           {isWrongChain && (
             <div className="mb-3 pb-3 border-b border-gray-200">
@@ -134,7 +194,7 @@ const WalletConnection = () => {
               handleCopy();
               setIsDropdownOpen(false);
             }}
-            className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-white hover:bg-vibecaster-lavender"
+            className="w-full flex items-center gap-3 rounded-md px-3 py-2 text-left text-sm text-white hover:bg-vhibes-primary/20"
           >
             <Icon icon="solar:copy-line-duotone" className="w-5 h-5" />
             <span>Copy Address</span>
@@ -152,7 +212,7 @@ const WalletConnection = () => {
             </a>
           )}
           
-          <div className="my-1 h-px bg-vibecaster-lavender" />
+          <div className="my-1 h-px bg-vhibes-primary/20" />
           
           <button
             onClick={() => {

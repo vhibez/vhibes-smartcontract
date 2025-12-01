@@ -1,6 +1,6 @@
 # vhibes Smart Contracts 🔐
 
-Smart contracts for the vhibes Farcaster mini-app, deployed on Base network.
+Smart contracts for the vhibes  mini-app, deployed on Base network.
 
 ## 📋 Overview
 

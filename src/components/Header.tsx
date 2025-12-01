@@ -28,7 +28,7 @@ export default function Header() {
                 alt="vhibes Logo"
                 width={100}
                 height={100}
-                className="rounded-lg w-16 h-16 md:w-20 md:h-20 object-contain"
+                className="rounded-lg"
                 priority
               />
             </Link>

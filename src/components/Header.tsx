@@ -19,16 +19,16 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-4 md:py-6">
+        <div className="flex items-center justify-between py-2 md:py-3">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <Link href="/" className="cursor-pointer hover:opacity-80 transition-all duration-300 hover:scale-105">
               <Image
                 src="/vhibes-logo.png"
                 alt="vhibes Logo"
-                width={120}
-                height={120}
-                className="rounded-lg w-20 h-20 md:w-24 md:h-24 object-contain"
+                width={100}
+                height={100}
+                className="rounded-lg"
                 priority
               />
             </Link>

@@ -24,7 +24,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-8">
           <VhibesDashboard />
         </div>
-      </div>
+        </div>
 
       {/* vhibes Footer */}
       <Footer />

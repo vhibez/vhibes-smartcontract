@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { TrendingUp, Trophy, Flame, Snowflake, Zap, Plus, Share2, ArrowRight } from 'lucide-react';
+import { share, shareToFarcaster, shareToTwitter, copyToClipboard } from '@/lib/share';
 import RoastMe from './RoastMe';
 import Leaderboard from './Leaderboard';
 import RoastGallery from './RoastGallery';
@@ -35,7 +36,10 @@ export default function VhibesDashboard() {
         </h2>
         <p className="text-sm md:text-base text-vhibes-light mb-4 md:mb-6">
           {isConnected ? (
-            "Another day to roast, create & vibe!"
+            <>
+              Another day to roast, create & vibe! <br className="hidden md:block" />
+              Share your <span className="font-bold text-vhibes-primary">epic moments and vibes</span> with your social community on X, Farcaster & beyond! 🚀✨
+            </>
           ) : (
             "Connect your wallet to start vibing!"
           )}
@@ -52,10 +56,16 @@ export default function VhibesDashboard() {
               Create
             </span>
             <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-vhibes-primary/60" />
-            <span className="bg-vhibes-primary/20 text-vhibes-primary px-3 md:px-4 py-1 rounded-full flex items-center gap-1.5">
+            <button
+              onClick={() => share({
+                text: "Check out vhibes - The Future of Social on Farcaster! 🚀✨",
+                title: "vhibes"
+              })}
+              className="bg-vhibes-primary/20 text-vhibes-primary px-3 md:px-4 py-1 rounded-full flex items-center gap-1.5 hover:bg-vhibes-primary/30 transition-colors cursor-pointer"
+            >
               <Share2 className="w-4 h-4 md:w-5 md:h-5" />
               Share
-            </span>
+            </button>
           </div>
         )}
       </div>

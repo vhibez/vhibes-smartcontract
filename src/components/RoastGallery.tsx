@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { Flame, Heart, MessageCircle, Share2, Loader2, Filter, ArrowUpDown } from "lucide-react";
+import { share } from '@/lib/share';
 import Image from "next/image";
 
 export default function RoastGallery() {
@@ -264,7 +265,14 @@ export default function RoastGallery() {
                   <span className="text-xs">{roast.comments}</span>
                 </button>
               </div>
-              <button className="text-vhibes-light hover:text-white transition-colors">
+              <button
+                onClick={() => share({
+                  text: `Check out this hilarious roast on vhibes! 🔥\n\n"${roast.roast}"\n\n`,
+                  url: `https://vhibes.vercel.app?roast=${roast.id}`
+                })}
+                className="text-vhibes-light hover:text-white transition-colors"
+                title="Share this roast"
+              >
                 <Share2 size={14} />
               </button>
             </div>

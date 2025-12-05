@@ -128,10 +128,20 @@ const WalletModal = () => {
       }
       
       setPendingConnectorUID(connector.uid);
-      
+
+      // Persist the selected connector so we can auto-reconnect on next visit
+      try {
+        const key = connector.id ?? connector.name ?? connector.uid ?? 'unknown';
+        if (typeof window !== 'undefined' && key) {
+          window.localStorage.setItem('vhibes:lastConnector', key);
+        }
+      } catch (e) {
+        // ignore storage errors
+      }
+
       // Use the connect function from useConnect hook
       connect({ connector });
-      
+
       setIsModalOpen(false); // Close modal on successful connection
     } catch (error) {
       console.error('Connection error:', error);

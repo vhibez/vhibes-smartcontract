@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useConnect, useAccount, useConnectors } from "wagmi";
 
 export default function AutoConnect() {
-  const { connectors } = useConnectors();
+  const connectors = useConnectors();
   const { connect } = useConnect();
   const { isConnected } = useAccount();
   const [tried, setTried] = useState(false);
@@ -34,13 +34,15 @@ export default function AutoConnect() {
     });
 
     if (match) {
-      // attempt connect but don't throw if it fails
-      connect({ connector: match }).catch((e) => {
-        // clear stored connector if it fails repeatedly
+      // attempt connect; wagmi connect returns void, not a Promise
+      try {
+        connect({ connector: match });
+      } catch (e: unknown) {
+        // clear stored connector if it fails
         try {
           window.localStorage.removeItem("vhibes:lastConnector");
         } catch (_) {}
-      });
+      }
     }
 
     setTried(true);

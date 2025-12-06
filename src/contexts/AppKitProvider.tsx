@@ -5,6 +5,7 @@ import { createAppKit } from '@reown/appkit/react'
 // import { baseSepolia } from '@reown/appkit/networks' // Base Sepolia - commented out
 import { base } from '@reown/appkit/networks' // Base Mainnet
 import React, { type ReactNode } from 'react'
+import { APP_URLS } from '@/lib/constants'
 
 if (!projectId) {
   throw new Error('Project ID is not defined')
@@ -14,8 +15,8 @@ if (!projectId) {
 const metadata = {
   name: 'vhibes',
   description: 'The Future of Social on Farcaster - AI roasts, icebreakers, and viral challenges',
-  url: 'https://vhibes.vercel.app',
-  icons: ['https://vhibes.vercel.app/vhibes-logo.png']
+  url: APP_URLS.BASE_URL,
+  icons: [APP_URLS.LOGO_URL]
 }
 
 // Create the AppKit modal

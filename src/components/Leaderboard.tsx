@@ -1,6 +1,6 @@
 "use client";
 
-import { Wrench, Hammer } from "lucide-react";
+import { Wrench, Hammer, Trophy } from "lucide-react";
 
 export default function Leaderboard() {
   return (
@@ -11,7 +11,10 @@ export default function Leaderboard() {
         </div>
       </div>
       
-      <h2 className="text-2xl md:text-3xl font-bold text-vhibes-primary mb-4">🏆 Leaderboard</h2>
+      <h2 className="text-2xl md:text-3xl font-bold text-vhibes-primary mb-4 flex items-center justify-center gap-2">
+        <Trophy className="w-6 h-6 md:w-8 md:h-8" />
+        Leaderboard
+      </h2>
       <p className="text-sm md:text-lg text-vhibes-light mb-6">We're crafting something legendary!</p>
       
       <div className="flex justify-center items-center gap-2 text-vhibes-light">

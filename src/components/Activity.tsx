@@ -608,8 +608,7 @@ export default function Activity({ setActiveTab }: ActivityProps) {
           </button>
           
           {showBadges && (
-            <div>
-          
+            <>
           {isLoadingBadges ? (
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-vhibes-lavender mx-auto"></div>
@@ -711,8 +710,9 @@ export default function Activity({ setActiveTab }: ActivityProps) {
             </div>
               ))}
             </div>
-            )}
-          </div>
+          )}
+            </>
+          )}
         </div>
       </div>
 

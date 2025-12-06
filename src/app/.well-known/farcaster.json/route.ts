@@ -33,6 +33,7 @@ export async function GET() {
       homeUrl: URL,
       webhookUrl: `${URL}/api/webhook`,
       primaryCategory: 'social',
+      tags: ['vhibes', 'roasts', 'icebreakers', 'challenges', 'social'],
       heroImageUrl: 'https://vhibes.vercel.app/og.png',
       tagline: 'AI Roasts & Challenges',
       ogTitle: 'vhibes',

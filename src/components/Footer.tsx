@@ -3,6 +3,7 @@
 import { useAccount } from "wagmi";
 import Image from "next/image";
 import Link from "next/link";
+import { APP_URLS } from "@/lib/constants";
 
 export default function Footer() {
   const { address, isConnected } = useAccount();
@@ -61,7 +62,7 @@ export default function Footer() {
               />
             </a>
             <a
-              href="https://warpcast.com/vhibes"
+              href={APP_URLS.FARCASTER_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="text-vhibes-light hover:text-vhibes-primary transition-colors"

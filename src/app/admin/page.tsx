@@ -2,7 +2,6 @@
 
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Crown, Users, ChartLine, Settings, Lock, Zap, Flame, Snowflake, Gem, Trophy, RefreshCw, Plus } from "lucide-react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -1007,7 +1006,8 @@ export default function AdminPage() {
               />
               {badgeUpload.imagePreview && (
                 <div className="mt-4">
-                  <Image src={badgeUpload.imagePreview} alt="Badge Preview" width={384} height={384} className="max-w-sm h-auto rounded-lg" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={badgeUpload.imagePreview} alt="Badge Preview" className="max-w-sm h-auto rounded-lg" />
                 </div>
               )}
             </div>

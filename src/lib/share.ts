@@ -17,7 +17,8 @@ export const shareToFarcaster = (options: ShareOptions = {}) => {
   const url = options.url || "https://vhibes.vercel.app";
   const fullText = `${shareText}\n\n${url}`;
   
-  const farcasterUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(fullText)}`;
+import { APP_URLS } from "./constants";
+  const farcasterUrl = `${APP_URLS.WARPCAST_COMPOSE}?text=${encodeURIComponent(fullText)}`;
   window.open(farcasterUrl, '_blank');
 };
 

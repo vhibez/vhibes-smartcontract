@@ -36,10 +36,7 @@ export default function VhibesDashboard() {
         </h2>
         <p className="text-sm md:text-base text-vhibes-light mb-4 md:mb-6">
           {isConnected ? (
-            <>
-              Another day to roast, create & vibe! <br className="hidden md:block" />
-              Share your <span className="font-bold text-vhibes-primary">epic moments and vibes</span> with your social community on X, Farcaster & beyond! 🚀✨
-            </>
+            "Another day to roast, create & vibe!"
           ) : (
             "Connect your wallet to start vibing!"
           )}

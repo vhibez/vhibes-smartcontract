@@ -522,6 +522,13 @@ export default function Icebreaker() {
           </div>
         </div>
       )}
+
+      {/* Share Message */}
+      <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-vhibes-lavender/20 text-center">
+        <p className="text-sm md:text-base text-vhibes-light-purple">
+          Share your epic moments and vibes with your social community on X, Farcaster & beyond! 🚀✨
+        </p>
+      </div>
     </div>
   );
 }

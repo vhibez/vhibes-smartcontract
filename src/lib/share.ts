@@ -1,3 +1,5 @@
+import { APP_URLS } from "./constants";
+
 /**
  * Share utility functions for vhibes platform
  */
@@ -14,10 +16,9 @@ export interface ShareOptions {
 export const shareToFarcaster = (options: ShareOptions = {}) => {
   const defaultText = "Check out vhibes - The Future of Social on Farcaster! 🚀✨";
   const shareText = options.text || defaultText;
-  const url = options.url || "https://vhibes.vercel.app";
+  const url = options.url || APP_URLS.BASE_URL;
   const fullText = `${shareText}\n\n${url}`;
   
-import { APP_URLS } from "./constants";
   const farcasterUrl = `${APP_URLS.WARPCAST_COMPOSE}?text=${encodeURIComponent(fullText)}`;
   window.open(farcasterUrl, '_blank');
 };
@@ -28,7 +29,7 @@ import { APP_URLS } from "./constants";
 export const shareToTwitter = (options: ShareOptions = {}) => {
   const defaultText = "Check out vhibes - The Future of Social on Farcaster! 🚀✨";
   const shareText = options.text || defaultText;
-  const url = options.url || "https://vhibes.vercel.app";
+  const url = options.url || APP_URLS.BASE_URL;
   const fullText = `${shareText}\n\n${url}`;
   
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(fullText)}`;
@@ -59,7 +60,7 @@ export const shareNative = async (options: ShareOptions = {}): Promise<boolean> 
   try {
     const defaultText = "Check out vhibes - The Future of Social on Farcaster! 🚀✨";
     const shareText = options.text || defaultText;
-    const url = options.url || "https://vhibes.vercel.app";
+    const url = options.url || APP_URLS.BASE_URL;
     
     await navigator.share({
       title: options.title || 'vhibes',
@@ -89,7 +90,7 @@ export const share = async (options: ShareOptions = {}) => {
   // Fallback: show share options or copy to clipboard
   const defaultText = "Check out vhibes - The Future of Social on Farcaster! 🚀✨";
   const shareText = options.text || defaultText;
-  const url = options.url || "https://vhibes.vercel.app";
+  const url = options.url || APP_URLS.BASE_URL;
   const fullText = `${shareText}\n\n${url}`;
   
   // Copy to clipboard as fallback

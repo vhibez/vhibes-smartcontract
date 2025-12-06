@@ -44,7 +44,7 @@ export default function VhibesDashboard() {
     <div className="w-full max-w-7xl mx-auto overflow-x-hidden">
       {/* Welcome Section */}
       <div className="text-center py-6 md:py-10 lg:py-12 mb-6 md:mb-8">
-nd        <h2 className="mb-4 welcome-heading">
+        <h2 className="mb-4 welcome-heading">
           Welcome to Vhibes
         </h2>
         <p className="text-sm md:text-base text-vhibes-light mb-4 md:mb-6">

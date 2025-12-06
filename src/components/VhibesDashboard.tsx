@@ -50,7 +50,7 @@ export default function VhibesDashboard() {
         <p className="text-sm md:text-base text-vhibes-light mb-4 md:mb-6">
           {isConnected ? (
             <>
-              {textEmoji} Another day to roast, create & vibe!
+              Another day to roast, create & vibe! {textEmoji}
             </>
           ) : (
             "Connect your wallet to start vibing!"
@@ -83,7 +83,7 @@ export default function VhibesDashboard() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex justify-center mt-8 mb-6 md:mt-0 md:mb-8">
+      <div className="flex justify-center mt-10 mb-6 md:mt-0 md:mb-8">
         <div className="flex flex-wrap justify-center space-x-1 bg-vhibes-dark/30 backdrop-blur-sm rounded-lg p-1 border border-vhibes-primary/20 shadow-md">
           {[
             { 

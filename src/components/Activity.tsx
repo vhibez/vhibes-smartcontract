@@ -8,19 +8,19 @@ import VhibesBadgesArtifact from '@/abis/VhibesBadges.json';
 import RoastMeContractArtifact from '@/abis/RoastMeContract.json';
 import IcebreakerContractArtifact from '@/abis/IcebreakerContract.json';
 import ChainReactionContractArtifact from '@/abis/ChainReactionContract.json';
+import {
+  VHIBES_POINTS_ADDRESS,
+  VHIBES_BADGES_ADDRESS,
+  ROAST_ME_CONTRACT_ADDRESS,
+  ICEBREAKER_CONTRACT_ADDRESS,
+  CHAIN_REACTION_CONTRACT_ADDRESS,
+} from "@/lib/constants";
 
 const VhibesPointsABI = VhibesPointsArtifact.abi;
 const VhibesBadgesABI = VhibesBadgesArtifact.abi;
 const RoastMeContractABI = RoastMeContractArtifact.abi;
 const IcebreakerContractABI = IcebreakerContractArtifact.abi;
 const ChainReactionContractABI = ChainReactionContractArtifact.abi;
-
-// Contract addresses (Base Mainnet - Latest Deployment)
-const VHIBES_POINTS_ADDRESS = "0x738be79661d225048F8C0881adBC47bAA9211b7b";
-const VHIBES_BADGES_ADDRESS = "0xc0F8e7dA9d49A635f18d988f7a7C727eB0dA2C44";
-const ROAST_ME_CONTRACT_ADDRESS = "0x96A472f40fcab11CB17045c04122Dd6e311F8324";
-const ICEBREAKER_CONTRACT_ADDRESS = "0x72b92D55195c05E43A7E752839d6eCD23104ca8a";
-const CHAIN_REACTION_CONTRACT_ADDRESS = "0xE09596824F17c41eD18cCe7d7035908526f2BF14";
 
 interface ActivityProps {
   setActiveTab: (tab: string) => void;

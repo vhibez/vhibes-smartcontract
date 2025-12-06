@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
 import ChainReactionContractArtifact from '@/abis/ChainReactionContract.json';
-
-const CHAIN_REACTION_CONTRACT_ADDRESS = "0xE09596824F17c41eD18cCe7d7035908526f2BF14";
+import { CHAIN_REACTION_CONTRACT_ADDRESS } from '@/lib/constants';
 
 const client = createPublicClient({
   chain: base,

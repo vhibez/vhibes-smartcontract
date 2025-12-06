@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
 import IcebreakerContractArtifact from '@/abis/IcebreakerContract.json';
-
-const ICEBREAKER_CONTRACT_ADDRESS = "0x72b92D55195c05E43A7E752839d6eCD23104ca8a";
+import { ICEBREAKER_CONTRACT_ADDRESS } from '@/lib/constants';
 
 const client = createPublicClient({
   chain: base,

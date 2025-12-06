@@ -43,7 +43,7 @@ export default function VhibesDashboard() {
   return (
     <div className="w-full max-w-7xl mx-auto overflow-x-hidden">
       {/* Welcome Section */}
-      <div className="text-center py-6 md:py-10 lg:py-12 mb-6 md:mb-8">
+      <div className="text-center pt-12 pb-6 md:py-10 lg:py-12 mb-8 md:mb-8">
         <h2 className="mb-4 welcome-heading">
           Welcome to Vhibes
         </h2>
@@ -83,7 +83,7 @@ export default function VhibesDashboard() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex justify-center mb-6 md:mb-8">
+      <div className="flex justify-center mt-8 mb-6 md:mt-0 md:mb-8">
         <div className="flex flex-wrap justify-center space-x-1 bg-vhibes-dark/30 backdrop-blur-sm rounded-lg p-1 border border-vhibes-primary/20 shadow-md">
           {[
             { 

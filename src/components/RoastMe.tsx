@@ -7,9 +7,9 @@ import Image from "next/image";
 import RoastMeContractArtifact from "@/abis/RoastMeContract.json";
 
 import { uploadRoastToIPFS } from "@/lib/ipfs";
+import { ROAST_ME_CONTRACT_ADDRESS, APP_URLS } from "@/lib/constants";
 
 const RoastMeContractABI = RoastMeContractArtifact.abi;
-const ROAST_ME_CONTRACT_ADDRESS = "0x96A472f40fcab11CB17045c04122Dd6e311F8324"; // Base Mainnet
 
 export default function RoastMe() {
   const { address, isConnected } = useAccount();
@@ -259,7 +259,7 @@ export default function RoastMe() {
     const shareText = `I just got roasted on vhibes! ðŸ˜‚ðŸ”¥\n\n"${roastResult}"\n\nThis is hilarious! You too can try it out at vhibes.xyz - dare to get roasted? ðŸ”¥`;
     
     // Farcaster sharing URL (you can customize this based on Farcaster's API)
-    const farcasterUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`;
+    const farcasterUrl = `${APP_URLS.WARPCAST_COMPOSE}?text=${encodeURIComponent(shareText)}`;
     
     window.open(farcasterUrl, '_blank');
   };

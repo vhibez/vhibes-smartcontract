@@ -9,6 +9,7 @@ import {
   coinbaseWallet,
 } from "wagmi/connectors";
 import { farcasterMiniApp } from "@farcaster/miniapp-wagmi-connector";
+import { CURRENT_NETWORK, APP_URLS } from "./constants";
 
 // Create WalletConnect connector only once
 let walletConnectConnector: any = null;
@@ -20,8 +21,8 @@ const getWalletConnectConnector = () => {
       metadata: {
         name: "vhibes",
         description: "The Future of Social on Farcaster - AI roasts, icebreakers, and viral challenges",
-        url: "https://vhibes.vercel.app", // Updated to correct URL
-        icons: ["https://vhibes.vercel.app/vhibes-logo.png"], // Updated to correct URL
+        url: APP_URLS.BASE_URL,
+        icons: [APP_URLS.LOGO_URL],
       },
     });
   }
@@ -32,8 +33,8 @@ export const config = createConfig({
   chains: [base], // Base Mainnet
   // chains: [baseSepolia], // Base Sepolia - commented out
   transports: {
-    [base.id]: http("https://mainnet.base.org"), // Base Mainnet RPC
-    // [baseSepolia.id]: http("https://sepolia.base.org"), // Base Sepolia RPC - commented out
+    [base.id]: http(CURRENT_NETWORK.rpcUrl), // Use RPC URL from constants
+    // [baseSepolia.id]: http(NETWORK.SEPOLIA.rpcUrl), // Base Sepolia RPC - commented out
   },
   connectors: [
     // Farcaster Mini App connector as the primary option

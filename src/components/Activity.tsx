@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { Flame, Snowflake, Zap, RefreshCw, Trophy, Medal, Crown, Star, Lock, Sparkles } from 'lucide-react';
+import { Flame, Snowflake, Zap, RefreshCw, Trophy, Medal, Crown, Star, Lock, Sparkles, ChevronDown, ChevronUp, BarChart3 } from 'lucide-react';
 import VhibesPointsArtifact from '@/abis/VhibesPoints.json';
 import VhibesBadgesArtifact from '@/abis/VhibesBadges.json';
 import RoastMeContractArtifact from '@/abis/RoastMeContract.json';
@@ -72,6 +72,8 @@ export default function Activity({ setActiveTab }: ActivityProps) {
   const [recentChainReactions, setRecentChainReactions] = useState<ChainReactionItem[]>([]);
   const [badges, setBadges] = useState<BadgeData[]>([]);
   const [isLoadingBadges, setIsLoadingBadges] = useState(true);
+  const [showQuickStats, setShowQuickStats] = useState(false);
+  const [showBadges, setShowBadges] = useState(false);
 
   // Contract write function for minting badges
   const { writeContract } = useWriteContract();
@@ -416,26 +418,44 @@ export default function Activity({ setActiveTab }: ActivityProps) {
         {/* Recent Activity */}
         <div className="lg:col-span-2">
           <div className="bg-vhibes-dark/30 backdrop-blur-sm rounded-lg p-4 md:p-6 border border-vhibes-lavender/20">
-            {/* Quick Stats - Inside the Recent Activity container, above the header */}
-            <div className="bg-vhibes-dark/50 backdrop-blur-sm rounded-lg border border-vhibes-lavender/20 mb-4 md:mb-6">
-              <div className="grid grid-cols-2 md:grid-cols-4">
-                <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
-                  <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{totalRoasts}</div>
-                  <div className="text-xs text-vhibes-light-purple">Total Roasts</div>
+            {/* Quick Stats - Collapsible */}
+            <div className="mb-4 md:mb-6">
+              <button
+                onClick={() => setShowQuickStats(!showQuickStats)}
+                className="w-full flex items-center justify-between p-2 md:p-3 bg-vhibes-dark/50 backdrop-blur-sm rounded-lg border border-vhibes-lavender/20 hover:bg-vhibes-dark/70 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <BarChart3 size={16} className="text-vhibes-lavender" />
+                  <span className="text-sm md:text-base font-medium text-white">Quick Stats</span>
                 </div>
-                <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
-                  <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{totalChainReactions}</div>
-                  <div className="text-xs text-vhibes-light-purple">Chain Reactions</div>
+                {showQuickStats ? (
+                  <ChevronUp size={16} className="text-vhibes-lavender" />
+                ) : (
+                  <ChevronDown size={16} className="text-vhibes-lavender" />
+                )}
+              </button>
+              {showQuickStats && (
+                <div className="mt-2 bg-vhibes-dark/50 backdrop-blur-sm rounded-lg border border-vhibes-lavender/20">
+                  <div className="grid grid-cols-2 md:grid-cols-4">
+                    <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
+                      <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{totalRoasts}</div>
+                      <div className="text-xs text-vhibes-light-purple">Total Roasts</div>
+                    </div>
+                    <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
+                      <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{totalChainReactions}</div>
+                      <div className="text-xs text-vhibes-light-purple">Chain Reactions</div>
+                    </div>
+                    <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
+                      <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{totalIcebreakers}</div>
+                      <div className="text-xs text-vhibes-light-purple">Icebreakers</div>
+                    </div>
+                    <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
+                      <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{userBadges.length}</div>
+                      <div className="text-xs text-vhibes-light-purple">Badges Earned</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
-                  <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{totalIcebreakers}</div>
-                  <div className="text-xs text-vhibes-light-purple">Icebreakers</div>
-                </div>
-                <div className="p-2 md:p-3 text-center border-r border-vhibes-lavender/20 last:border-r-0">
-                  <div className="text-lg md:text-xl font-bold text-vhibes-lavender">{userBadges.length}</div>
-                  <div className="text-xs text-vhibes-light-purple">Badges Earned</div>
-                </div>
-              </div>
+              )}
             </div>
 
             <div className="mb-3 md:mb-4">
@@ -566,15 +586,29 @@ export default function Activity({ setActiveTab }: ActivityProps) {
         </div>
       </div>
 
-      {/* Badges Section */}
+      {/* Badges Section - Collapsible */}
       <div className="mt-6 md:mt-8">
         <div className="bg-vhibes-dark/30 backdrop-blur-sm rounded-lg p-4 md:p-6 border border-vhibes-lavender/20">
-          <div className="flex items-center justify-between mb-4 md:mb-6">
-            <h2 className="text-lg md:text-xl font-bold text-white">Your Badges</h2>
-            <div className="text-xs md:text-sm text-vhibes-light-purple">
-              {userBadges.length} of {badges.length} badges earned
+          <button
+            onClick={() => setShowBadges(!showBadges)}
+            className="w-full flex items-center justify-between mb-4 md:mb-6"
+          >
+            <div className="flex items-center gap-2">
+              <Trophy size={18} className="text-vhibes-lavender" />
+              <h2 className="text-lg md:text-xl font-bold text-white">Your Badges</h2>
+              <span className="text-xs md:text-sm text-vhibes-light-purple ml-2">
+                ({userBadges.length} of {badges.length} earned)
+              </span>
             </div>
-          </div>
+            {showBadges ? (
+              <ChevronUp size={18} className="text-vhibes-lavender" />
+            ) : (
+              <ChevronDown size={18} className="text-vhibes-lavender" />
+            )}
+          </button>
+          
+          {showBadges && (
+            <div>
           
           {isLoadingBadges ? (
             <div className="text-center py-8">
@@ -677,7 +711,8 @@ export default function Activity({ setActiveTab }: ActivityProps) {
             </div>
               ))}
             </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 

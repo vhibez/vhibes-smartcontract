@@ -7,7 +7,7 @@ import { Snowflake } from 'lucide-react';
 import IcebreakerContractArtifact from '@/abis/IcebreakerContract.json';
 
 // Contract address from deployment (Base Mainnet)
-const ICEBREAKER_CONTRACT_ADDRESS = "0x72b92D55195c05E43A7E752839d6eCD23104ca8a";
+import { ICEBREAKER_CONTRACT_ADDRESS } from "@/lib/constants";
 
 interface Category {
   name: string;

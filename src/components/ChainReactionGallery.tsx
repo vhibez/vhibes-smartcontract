@@ -8,7 +8,7 @@ import ChainReactionContractArtifact from '@/abis/ChainReactionContract.json';
 import { uploadChainToIPFS } from '@/lib/ipfs';
 
 // Contract address from deployment (Base Mainnet)
-const CHAIN_REACTION_CONTRACT_ADDRESS = "0xE09596824F17c41eD18cCe7d7035908526f2BF14";
+import { CHAIN_REACTION_CONTRACT_ADDRESS } from "@/lib/constants";
 
 interface Challenge {
   initiator: string;

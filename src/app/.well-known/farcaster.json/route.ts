@@ -6,7 +6,7 @@ declare const process: {
 
 function withValidProperties(properties: Record<string, undefined | string | string[] | boolean>) {
   return Object.fromEntries(
-    Object.entries(properties).filter(([_, value]) => {
+    Object.entries(properties).filter(([, value]) => {
       if (typeof value === 'boolean') return true;
       return Array.isArray(value) ? value.length > 0 : !!value;
     })
@@ -49,4 +49,3 @@ export async function GET() {
     },  
   });
 }
-

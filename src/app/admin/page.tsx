@@ -2,34 +2,23 @@
 
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { useState, useEffect } from "react";
-import { Crown, Users, ChartLine, Settings, Lock, Zap, Flame, Snowflake, Gem, Trophy, RefreshCw, Plus, Edit, Trash2 } from "lucide-react";
+import Image from "next/image";
+import { Crown, Users, ChartLine, Settings, Lock, Zap, Flame, Snowflake, Gem, Trophy, RefreshCw, Plus } from "lucide-react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
 // Import ABIs
 import VhibesAdminArtifact from "../../abis/VhibesAdmin.json";
 import VhibesPointsArtifact from "../../abis/VhibesPoints.json";
-import VhibesBadgesArtifact from "../../abis/VhibesBadges.json";
-import RoastMeContractArtifact from "../../abis/RoastMeContract.json";
-import IcebreakerContractArtifact from "../../abis/IcebreakerContract.json";
-import ChainReactionContractArtifact from "../../abis/ChainReactionContract.json";
 
 // Extract ABIs from artifacts
 const VhibesAdminABI = VhibesAdminArtifact.abi;
 const VhibesPointsABI = VhibesPointsArtifact.abi;
-const VhibesBadgesABI = VhibesBadgesArtifact.abi;
-const RoastMeContractABI = RoastMeContractArtifact.abi;
-const IcebreakerContractABI = IcebreakerContractArtifact.abi;
-const ChainReactionContractABI = ChainReactionContractArtifact.abi;
 
 // Import contract addresses from constants
 import {
   VHIBES_ADMIN_ADDRESS,
   VHIBES_POINTS_ADDRESS,
-  VHIBES_BADGES_ADDRESS,
-  ROAST_ME_CONTRACT_ADDRESS,
-  ICEBREAKER_CONTRACT_ADDRESS,
-  CHAIN_REACTION_CONTRACT_ADDRESS,
   APP_URLS,
 } from "@/lib/constants";
 
@@ -63,8 +52,8 @@ async function uploadBadgeToIPFS(
         name: "Vhibes Badges",
       });
       console.log("Created new Vhibes Badges group:", badgesGroup.id);
-    } catch (error: any) {
-      if (error.message.includes("already exists")) {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message.includes("already exists")) {
         // Group already exists, try to find it
         const groups = await pinata.groups.private.list();
         badgesGroup = groups.groups.find(group => group.name === "Vhibes Badges");
@@ -1018,7 +1007,7 @@ export default function AdminPage() {
               />
               {badgeUpload.imagePreview && (
                 <div className="mt-4">
-                  <img src={badgeUpload.imagePreview} alt="Badge Preview" className="max-w-sm h-auto rounded-lg" />
+                  <Image src={badgeUpload.imagePreview} alt="Badge Preview" width={384} height={384} className="max-w-sm h-auto rounded-lg" />
                 </div>
               )}
             </div>
@@ -1296,7 +1285,7 @@ export default function AdminPage() {
             <Crown size={64} className="text-red-500 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-white mb-2">Admin Access Required</h1>
             <p className="text-vhibes-light mb-4">
-              You don't have permission to access this page.
+              You don&apos;t have permission to access this page.
             </p>
             <p className="text-sm text-white/60">
               Address: {address?.slice(0, 6)}...{address?.slice(-4)}

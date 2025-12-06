@@ -22,13 +22,16 @@ const RoastMeContractABI = RoastMeContractArtifact.abi;
 const IcebreakerContractABI = IcebreakerContractArtifact.abi;
 const ChainReactionContractABI = ChainReactionContractArtifact.abi;
 
-// Contract addresses (Base Mainnet - Latest Deployment)
-const VHIBES_ADMIN_ADDRESS = "0x4548f1c691b254DB4532C05D2118f66D2A78ec1C";
-const VHIBES_POINTS_ADDRESS = "0x738be79661d225048F8C0881adBC47bAA9211b7b";
-const VHIBES_BADGES_ADDRESS = "0xc0F8e7dA9d49A635f18d988f7a7C727eB0dA2C44";
-const ROAST_ME_CONTRACT_ADDRESS = "0x96A472f40fcab11CB17045c04122Dd6e311F8324";
-const ICEBREAKER_CONTRACT_ADDRESS = "0x72b92D55195c05E43A7E752839d6eCD23104ca8a";
-const CHAIN_REACTION_CONTRACT_ADDRESS = "0xE09596824F17c41eD18cCe7d7035908526f2BF14";
+// Import contract addresses from constants
+import {
+  VHIBES_ADMIN_ADDRESS,
+  VHIBES_POINTS_ADDRESS,
+  VHIBES_BADGES_ADDRESS,
+  ROAST_ME_CONTRACT_ADDRESS,
+  ICEBREAKER_CONTRACT_ADDRESS,
+  CHAIN_REACTION_CONTRACT_ADDRESS,
+  APP_URLS,
+} from "@/lib/constants";
 
 // IPFS Upload Function for Badges (Private Files + Groups)
 async function uploadBadgeToIPFS(
@@ -37,7 +40,7 @@ async function uploadBadgeToIPFS(
   badgeDescription: string,
   badgeType: string,
   rarity: string,
-  externalUrl: string = "https://vhibes.vercel.app"
+  externalUrl: string = APP_URLS.BASE_URL
 ) {
   try {
     if (!process.env.NEXT_PUBLIC_PINATA_JWT) {

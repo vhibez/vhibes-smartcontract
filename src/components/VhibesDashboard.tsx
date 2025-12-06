@@ -14,23 +14,11 @@ import Activity from './Activity';
 export default function VhibesDashboard() {
   const { address, isConnected } = useAccount();
   const [activeTab, setActiveTab] = useState('activity');
-  const [currentEmoji, setCurrentEmoji] = useState('💎');
   const [textEmoji, setTextEmoji] = useState('💎');
-
-  // Rotate emojis every 5 seconds
-  useEffect(() => {
-    const emojis = ['🚀', '💎', '🔥', '⚡', '🎯', '✨', '🌟', '💫'];
-    const interval = setInterval(() => {
-      setCurrentEmoji(emojis[Math.floor(Math.random() * emojis.length)]);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Rotate text emojis every 5-7 seconds
   useEffect(() => {
-    const textEmojis = ['🚀', '✨', '💎'];
-    const randomDelay = () => Math.random() * 2000 + 5000; // 5-7 seconds
+    const textEmojis = ['🚀', '💎', '✨', '🔥', '🎯', '🌟'];
     
     const rotateTextEmoji = () => {
       setTextEmoji(prevEmoji => {
@@ -39,26 +27,30 @@ export default function VhibesDashboard() {
           ? availableEmojis[Math.floor(Math.random() * availableEmojis.length)]
           : textEmojis[Math.floor(Math.random() * textEmojis.length)];
       });
+      
+      // Schedule next rotation with random delay between 5-7 seconds
+      const randomDelay = Math.random() * 2000 + 5000; // 5-7 seconds
+      setTimeout(rotateTextEmoji, randomDelay);
     };
 
-    const interval = setInterval(rotateTextEmoji, randomDelay());
-    rotateTextEmoji(); // Initial call
+    // Initial call with random delay
+    const initialDelay = Math.random() * 2000 + 5000;
+    const timeoutId = setTimeout(rotateTextEmoji, initialDelay);
 
-    return () => clearInterval(interval);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
     <div className="w-full max-w-7xl mx-auto overflow-x-hidden">
       {/* Welcome Section */}
       <div className="text-center py-6 md:py-10 lg:py-12 mb-6 md:mb-8">
-        <div className="text-3xl md:text-4xl mb-4">{currentEmoji}</div>
-        <h2 className="mb-4 welcome-heading">
+nd        <h2 className="mb-4 welcome-heading">
           Welcome to Vhibes
         </h2>
         <p className="text-sm md:text-base text-vhibes-light mb-4 md:mb-6">
           {isConnected ? (
             <>
-              Another day to roast, create & vibe! {textEmoji}
+              {textEmoji} Another day to roast, create & vibe!
             </>
           ) : (
             "Connect your wallet to start vibing!"

@@ -15,6 +15,7 @@ export default function VhibesDashboard() {
   const { address, isConnected } = useAccount();
   const [activeTab, setActiveTab] = useState('activity');
   const [currentEmoji, setCurrentEmoji] = useState('💎');
+  const [textEmoji, setTextEmoji] = useState('💎');
 
   // Rotate emojis every 5 seconds
   useEffect(() => {
@@ -22,6 +23,26 @@ export default function VhibesDashboard() {
     const interval = setInterval(() => {
       setCurrentEmoji(emojis[Math.floor(Math.random() * emojis.length)]);
     }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Rotate text emojis every 5-7 seconds
+  useEffect(() => {
+    const textEmojis = ['🚀', '✨', '💎'];
+    const randomDelay = () => Math.random() * 2000 + 5000; // 5-7 seconds
+    
+    const rotateTextEmoji = () => {
+      setTextEmoji(prevEmoji => {
+        const availableEmojis = textEmojis.filter(emoji => emoji !== prevEmoji);
+        return availableEmojis.length > 0 
+          ? availableEmojis[Math.floor(Math.random() * availableEmojis.length)]
+          : textEmojis[Math.floor(Math.random() * textEmojis.length)];
+      });
+    };
+
+    const interval = setInterval(rotateTextEmoji, randomDelay());
+    rotateTextEmoji(); // Initial call
 
     return () => clearInterval(interval);
   }, []);
@@ -36,7 +57,9 @@ export default function VhibesDashboard() {
         </h2>
         <p className="text-sm md:text-base text-vhibes-light mb-4 md:mb-6">
           {isConnected ? (
-            "Another day to roast, create & vibe!"
+            <>
+              Another day to roast, create & vibe! {textEmoji}
+            </>
           ) : (
             "Connect your wallet to start vibing!"
           )}

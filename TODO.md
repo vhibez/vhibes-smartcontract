@@ -14,17 +14,17 @@ This document outlines the tasks and improvements needed for the Vhibes smart co
 - `claimFirstActivityBadge()` has a comment indicating it needs proper activity tracking
 
 ### Tasks
-- [ ] Add interface/import for RoastMeContract in VhibesBadges.sol
-- [ ] Add interface/import for ChainReactionContract in VhibesBadges.sol
-- [ ] Add interface/import for IcebreakerContract in VhibesBadges.sol
-- [ ] Implement `getUserRoastCount(address user)` view function in RoastMeContract
-- [ ] Implement `getUserChainParticipationCount(address user)` view function in ChainReactionContract
-- [ ] Implement `getUserIcebreakerActivityCount(address user)` view function in IcebreakerContract
-- [ ] Update `claimTopRoasterBadge()` to check `roastContract.getUserRoastCount(msg.sender) >= topRoasterRequirement`
-- [ ] Update `claimChainMasterBadge()` to check chain participation count >= requirement
-- [ ] Update `claimIcebreakerBadge()` to check icebreaker activity count >= requirement
-- [ ] Update `claimFirstActivityBadge()` to properly track first activity across all contracts
-- [ ] Add proper error messages for failed requirement checks
+- [x] Add interface/import for RoastMeContract in VhibesBadges.sol
+- [x] Add interface/import for ChainReactionContract in VhibesBadges.sol
+- [x] Add interface/import for IcebreakerContract in VhibesBadges.sol
+- [x] Implement `getUserRoastCount(address user)` view function in RoastMeContract
+- [x] Implement `getUserChainParticipationCount(address user)` view function in ChainReactionContract
+- [x] Implement `getUserIcebreakerActivityCount(address user)` view function in IcebreakerContract
+- [x] Update `claimTopRoasterBadge()` to check `roastContract.getUserRoastCount(msg.sender) >= topRoasterRequirement`
+- [x] Update `claimChainMasterBadge()` to check chain participation count >= requirement
+- [x] Update `claimIcebreakerBadge()` to check icebreaker activity count >= requirement
+- [x] Update `claimFirstActivityBadge()` to properly track first activity across all contracts
+- [x] Add proper error messages for failed requirement checks
 - [ ] Test all badge claim functions with valid and invalid requirements
 
 ### Files to Modify

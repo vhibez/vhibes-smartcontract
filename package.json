@@ -24,10 +24,10 @@
     "@typechain/ethers-v6": "^0.5.1",
     "@typechain/hardhat": "^9.1.0",
     "hardhat": "^2.22.0",
+    "hardhat-contract-sizer": "^2.10.1",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2"
   }
 }
-

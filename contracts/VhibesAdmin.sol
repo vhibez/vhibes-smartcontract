@@ -198,4 +198,20 @@ contract VhibesAdmin is Ownable {
     function isAuthorizedAdmin(address admin) external view returns (bool) {
         return authorizedAdmins[admin] || admin == owner();
     }
+
+    // Temp Test Counter Functions
+    function incrementTempTest() external onlyAuthorized {
+        tempTestCounter++;
+        emit TempTestCounterIncremented(msg.sender, tempTestCounter);
+    }
+
+    function decrementTempTest() external onlyAuthorized {
+        require(tempTestCounter > 0, "Counter cannot be negative");
+        tempTestCounter--;
+        emit TempTestCounterDecremented(msg.sender, tempTestCounter);
+    }
+
+    function getTempTestCount() external view returns (uint256) {
+        return tempTestCounter;
+    }
 }

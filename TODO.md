@@ -25,7 +25,7 @@ This document outlines the tasks and improvements needed for the Vhibes smart co
 - [x] Update `claimIcebreakerBadge()` to check icebreaker activity count >= requirement
 - [x] Update `claimFirstActivityBadge()` to properly track first activity across all contracts
 - [x] Add proper error messages for failed requirement checks
-- [ ] Test all badge claim functions with valid and invalid requirements
+- [x] Test all badge claim functions with valid and invalid requirements
 
 ### Files to Modify
 - `contracts/VhibesBadges.sol`

@@ -197,4 +197,77 @@ contract ChainReactionContract is Ownable {
     function getUserChainParticipationCount(address user) external view returns (uint256) {
         return userResponses[user].length;
     }
+
+    function getTopChainParticipants(uint256 limit) external view returns (address[] memory, uint256[] memory) {
+        require(limit <= 100, "Limit too high");
+        
+        // Collect unique users and their response counts
+        address[] memory tempUsers = new address[](_responseIdCounter);
+        uint256[] memory tempCounts = new uint256[](_responseIdCounter);
+        uint256 uniqueUserCount = 0;
+        
+        // Iterate through all responses to collect unique users
+        for (uint256 i = 1; i <= _responseIdCounter; i++) {
+            if (responses[i].exists) {
+                address responder = responses[i].responder;
+                bool found = false;
+                
+                // Check if user already in our list
+                for (uint256 j = 0; j < uniqueUserCount; j++) {
+                    if (tempUsers[j] == responder) {
+                        tempCounts[j]++;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                // Add new user if not found
+                if (!found) {
+                    tempUsers[uniqueUserCount] = responder;
+                    tempCounts[uniqueUserCount] = 1;
+                    uniqueUserCount++;
+                }
+            }
+        }
+        
+        if (uniqueUserCount == 0) {
+            return (new address[](0), new uint256[](0));
+        }
+        
+        // Create properly sized arrays
+        address[] memory users = new address[](uniqueUserCount);
+        uint256[] memory counts = new uint256[](uniqueUserCount);
+        
+        for (uint256 i = 0; i < uniqueUserCount; i++) {
+            users[i] = tempUsers[i];
+            counts[i] = tempCounts[i];
+        }
+        
+        // Sort by participation count (descending) using insertion sort
+        for (uint256 i = 1; i < uniqueUserCount; i++) {
+            address keyUser = users[i];
+            uint256 keyCount = counts[i];
+            uint256 j = i;
+            
+            while (j > 0 && counts[j - 1] < keyCount) {
+                users[j] = users[j - 1];
+                counts[j] = counts[j - 1];
+                j--;
+            }
+            users[j] = keyUser;
+            counts[j] = keyCount;
+        }
+        
+        // Return top 'limit' participants
+        uint256 resultSize = uniqueUserCount < limit ? uniqueUserCount : limit;
+        address[] memory topParticipants = new address[](resultSize);
+        uint256[] memory topCounts = new uint256[](resultSize);
+        
+        for (uint256 i = 0; i < resultSize; i++) {
+            topParticipants[i] = users[i];
+            topCounts[i] = counts[i];
+        }
+        
+        return (topParticipants, topCounts);
+    }
 }

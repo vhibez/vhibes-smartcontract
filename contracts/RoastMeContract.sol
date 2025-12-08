@@ -174,4 +174,80 @@ contract RoastMeContract is Ownable {
     function getUserRoastCount(address user) external view returns (uint256) {
         return userRoasts[user].length;
     }
+
+    function getTopRoasters(uint256 limit) external view returns (address[] memory, uint256[] memory) {
+        require(limit <= 100, "Limit too high");
+        
+        // Since we can't iterate over mappings efficiently, we'll use a simpler approach:
+        // Collect unique users and their counts by iterating through roasts
+        // This is O(n²) but acceptable for small datasets
+        
+        address[] memory tempUsers = new address[](_roastIdCounter);
+        uint256[] memory tempCounts = new uint256[](_roastIdCounter);
+        uint256 uniqueUserCount = 0;
+        
+        // First pass: collect all unique users and count their roasts
+        for (uint256 i = 1; i <= _roastIdCounter; i++) {
+            if (roasts[i].exists) {
+                address submitter = roasts[i].submitter;
+                bool found = false;
+                
+                // Check if user already in our list
+                for (uint256 j = 0; j < uniqueUserCount; j++) {
+                    if (tempUsers[j] == submitter) {
+                        tempCounts[j]++;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                // Add new user if not found
+                if (!found) {
+                    tempUsers[uniqueUserCount] = submitter;
+                    tempCounts[uniqueUserCount] = 1;
+                    uniqueUserCount++;
+                }
+            }
+        }
+        
+        if (uniqueUserCount == 0) {
+            return (new address[](0), new uint256[](0));
+        }
+        
+        // Create properly sized arrays
+        address[] memory users = new address[](uniqueUserCount);
+        uint256[] memory counts = new uint256[](uniqueUserCount);
+        
+        for (uint256 i = 0; i < uniqueUserCount; i++) {
+            users[i] = tempUsers[i];
+            counts[i] = tempCounts[i];
+        }
+        
+        // Sort by roast count (descending) using insertion sort
+        for (uint256 i = 1; i < uniqueUserCount; i++) {
+            address keyUser = users[i];
+            uint256 keyCount = counts[i];
+            uint256 j = i;
+            
+            while (j > 0 && counts[j - 1] < keyCount) {
+                users[j] = users[j - 1];
+                counts[j] = counts[j - 1];
+                j--;
+            }
+            users[j] = keyUser;
+            counts[j] = keyCount;
+        }
+        
+        // Return top 'limit' roasters
+        uint256 resultSize = uniqueUserCount < limit ? uniqueUserCount : limit;
+        address[] memory topRoasters = new address[](resultSize);
+        uint256[] memory topCounts = new uint256[](resultSize);
+        
+        for (uint256 i = 0; i < resultSize; i++) {
+            topRoasters[i] = users[i];
+            topCounts[i] = counts[i];
+        }
+        
+        return (topRoasters, topCounts);
+    }
 }

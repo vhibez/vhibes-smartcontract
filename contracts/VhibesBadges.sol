@@ -10,6 +10,12 @@ import "./IcebreakerContract.sol";
 
 contract VhibesBadges is ERC721, Ownable {
     
+    // Custom errors for better gas efficiency
+    error BadgeAlreadyClaimed(string badgeType);
+    error BadgeURINotSet(string badgeType);
+    error RequirementNotMet(string badgeType, uint256 required, uint256 actual);
+    error ContractNotSet(string contractName);
+    
     VhibesPoints public pointsContract;
     RoastMeContract public roastContract;
     ChainReactionContract public chainReactionContract;
@@ -159,10 +165,20 @@ contract VhibesBadges is ERC721, Ownable {
     }
 
     function claimTopRoasterBadge() external {
-        require(!hasTopRoasterBadge[msg.sender], "Top roaster badge already claimed");
-        require(bytes(topRoasterBadgeURI).length > 0, "Badge URI not set by owner");
-        // This would check roast count from RoastMeContract
-        // For now, we'll assume they meet the requirement
+        if (hasTopRoasterBadge[msg.sender]) {
+            revert BadgeAlreadyClaimed("Top Roaster");
+        }
+        if (bytes(topRoasterBadgeURI).length == 0) {
+            revert BadgeURINotSet("Top Roaster");
+        }
+        if (address(roastContract) == address(0)) {
+            revert ContractNotSet("RoastMeContract");
+        }
+        
+        uint256 roastCount = roastContract.getUserRoastCount(msg.sender);
+        if (roastCount < topRoasterRequirement) {
+            revert RequirementNotMet("Top Roaster", topRoasterRequirement, roastCount);
+        }
         
         _tokenIdCounter++;
         uint256 badgeId = _tokenIdCounter;

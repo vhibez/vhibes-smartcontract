@@ -191,10 +191,20 @@ contract VhibesBadges is ERC721, Ownable {
     }
 
     function claimChainMasterBadge() external {
-        require(!hasChainMasterBadge[msg.sender], "Chain master badge already claimed");
-        require(bytes(chainMasterBadgeURI).length > 0, "Badge URI not set by owner");
-        // This would check chain participation from ChainReactionContract
-        // For now, we'll assume they meet the requirement
+        if (hasChainMasterBadge[msg.sender]) {
+            revert BadgeAlreadyClaimed("Chain Master");
+        }
+        if (bytes(chainMasterBadgeURI).length == 0) {
+            revert BadgeURINotSet("Chain Master");
+        }
+        if (address(chainReactionContract) == address(0)) {
+            revert ContractNotSet("ChainReactionContract");
+        }
+        
+        uint256 participationCount = chainReactionContract.getUserChainParticipationCount(msg.sender);
+        if (participationCount < chainMasterRequirement) {
+            revert RequirementNotMet("Chain Master", chainMasterRequirement, participationCount);
+        }
         
         _tokenIdCounter++;
         uint256 badgeId = _tokenIdCounter;

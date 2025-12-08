@@ -111,18 +111,43 @@ contract RoastMeContract is Ownable {
     function getTopRoasts(uint256 limit) external view returns (uint256[] memory) {
         require(limit <= 50, "Limit too high");
         
-        uint256[] memory topRoasts = new uint256[](limit);
-        uint256 count = 0;
+        // Collect all existing roast IDs
+        uint256[] memory allRoastIds = new uint256[](_roastIdCounter);
+        uint256 totalRoasts = 0;
         
-        for (uint256 i = 1; i <= _roastIdCounter && count < limit; i++) {
+        for (uint256 i = 1; i <= _roastIdCounter; i++) {
             if (roasts[i].exists) {
-                topRoasts[count] = i;
-                count++;
+                allRoastIds[totalRoasts] = i;
+                totalRoasts++;
             }
         }
         
-        // Sort by funny votes (simplified - in production you might want a more sophisticated algorithm)
-        // For now, just return the first 'limit' roasts
+        if (totalRoasts == 0) {
+            return new uint256[](0);
+        }
+        
+        // Sort by funny votes (descending) using insertion sort
+        // This is gas-efficient for small lists (up to 50 items)
+        for (uint256 i = 1; i < totalRoasts; i++) {
+            uint256 key = allRoastIds[i];
+            uint256 keyVotes = roasts[key].funnyVotes;
+            uint256 j = i;
+            
+            while (j > 0 && roasts[allRoastIds[j - 1]].funnyVotes < keyVotes) {
+                allRoastIds[j] = allRoastIds[j - 1];
+                j--;
+            }
+            allRoastIds[j] = key;
+        }
+        
+        // Return top 'limit' roasts
+        uint256 resultSize = totalRoasts < limit ? totalRoasts : limit;
+        uint256[] memory topRoasts = new uint256[](resultSize);
+        
+        for (uint256 i = 0; i < resultSize; i++) {
+            topRoasts[i] = allRoastIds[i];
+        }
+        
         return topRoasts;
     }
 

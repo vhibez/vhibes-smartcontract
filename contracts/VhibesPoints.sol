@@ -19,6 +19,10 @@ contract VhibesPoints is Ownable {
     mapping(address => uint256) public activityStreak;
     mapping(address => uint256) public lastActivityTimestamp;
     
+    // User tracking for leaderboard
+    address[] public userList;
+    mapping(address => bool) public isUserTracked;
+    
     // Level management mappings
     mapping(uint256 => Level) public levels;
     uint256 public totalLevels;
@@ -134,6 +138,12 @@ contract VhibesPoints is Ownable {
         require(user != address(0), "Invalid user address");
         require(amount > 0, "Amount must be greater than 0");
         
+        // Track user if not already tracked
+        if (!isUserTracked[user]) {
+            userList.push(user);
+            isUserTracked[user] = true;
+        }
+        
         userPoints[user] += amount;
         emit PointsAwarded(user, amount, reason);
     }
@@ -149,6 +159,12 @@ contract VhibesPoints is Ownable {
 
     function dailyLogin() external {
         uint256 currentTime = block.timestamp;
+        
+        // Track user if not already tracked
+        if (!isUserTracked[msg.sender]) {
+            userList.push(msg.sender);
+            isUserTracked[msg.sender] = true;
+        }
         
         // Check if it's a new day
         if (currentTime >= lastLoginTimestamp[msg.sender] + DAY) {
@@ -173,6 +189,12 @@ contract VhibesPoints is Ownable {
     function recordActivity() external onlyAuthorized {
         uint256 currentTime = block.timestamp;
         address user = tx.origin; // Get the original user who initiated the transaction
+        
+        // Track user if not already tracked
+        if (!isUserTracked[user]) {
+            userList.push(user);
+            isUserTracked[user] = true;
+        }
         
         // Check if it's a new day
         if (currentTime >= lastActivityTimestamp[user] + DAY) {

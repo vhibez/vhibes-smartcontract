@@ -193,4 +193,8 @@ contract ChainReactionContract is Ownable {
         require(responses[responseId].exists, "Response does not exist");
         return responses[responseId].childResponseIds.length;
     }
+
+    function getUserChainParticipationCount(address user) external view returns (uint256) {
+        return userResponses[user].length;
+    }
 }

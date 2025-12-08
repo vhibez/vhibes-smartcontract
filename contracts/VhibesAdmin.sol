@@ -18,12 +18,17 @@ contract VhibesAdmin is Ownable {
     
     mapping(address => bool) public authorizedAdmins;
     
+    // Temp test counter
+    uint256 public tempTestCounter;
+    
     event AdminAuthorized(address indexed admin);
     event AdminDeauthorized(address indexed admin);
     event PointsUpdated(string contractName, uint256 newPointsPerAction, uint256 newPointsPerVote, uint256 newPointsPerBonus);
     event CategoryCreated(uint256 categoryId, string name, string description);
     event BadgeURIsUpdated();
     event BadgeRequirementsUpdated();
+    event TempTestCounterIncremented(address indexed admin, uint256 newValue);
+    event TempTestCounterDecremented(address indexed admin, uint256 newValue);
 
     modifier onlyAuthorized() {
         require(authorizedAdmins[msg.sender] || msg.sender == owner(), "Not authorized");

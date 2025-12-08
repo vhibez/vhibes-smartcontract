@@ -43,20 +43,18 @@ This document outlines the tasks and improvements needed for the Vhibes smart co
 - No ranking system for users based on points, roasts, or other metrics
 
 ### Tasks
-- [ ] Implement sorting algorithm for `getTopRoasts()` - sort by funny votes (descending)
+- [x] Implement sorting algorithm for `getTopRoasts()` - sort by funny votes (descending)
 - [ ] Consider implementing a more sophisticated ranking algorithm (e.g., weighted score: funny votes - meh votes, or time-decay)
-- [ ] Implement `getLeaderboard()` in VhibesPoints:
-  - [ ] Option A: Maintain an on-chain sorted list (gas expensive but accurate)
-  - [ ] Option B: Return all users with points and sort off-chain (gas efficient)
-  - [ ] Option C: Use a mapping to track top N users (hybrid approach)
-- [ ] Add `getTopUsers(uint256 limit)` function that returns sorted users by points
-- [ ] Add `getUserRank(address user)` function to get user's position in leaderboard
+- [x] Implement `getLeaderboard()` in VhibesPoints:
+  - [x] Option B: Return all users with points and sort off-chain (gas efficient)
+- [x] Add `getTopUsers(uint256 limit)` function that returns sorted users by points
+- [x] Add `getUserRank(address user)` function to get user's position in leaderboard
 - [ ] Consider adding pagination support for large leaderboards
-- [ ] Add ranking functions for other metrics:
-  - [ ] Top roasters (by roast count)
-  - [ ] Top chain participants (by response count)
-  - [ ] Top icebreaker users (by prompt/response count)
-- [ ] Optimize gas costs for sorting operations (consider using insertion sort for small lists)
+- [x] Add ranking functions for other metrics:
+  - [x] Top roasters (by roast count)
+  - [x] Top chain participants (by response count)
+  - [x] Top icebreaker users (by prompt/response count)
+- [x] Optimize gas costs for sorting operations (consider using insertion sort for small lists)
 
 ### Files to Modify
 - `contracts/VhibesPoints.sol`

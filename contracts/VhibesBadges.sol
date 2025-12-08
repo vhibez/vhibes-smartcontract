@@ -217,10 +217,20 @@ contract VhibesBadges is ERC721, Ownable {
     }
 
     function claimIcebreakerBadge() external {
-        require(!hasIcebreakerBadge[msg.sender], "Icebreaker badge already claimed");
-        require(bytes(icebreakerBadgeURI).length > 0, "Badge URI not set by owner");
-        // This would check icebreaker participation from IcebreakerContract
-        // For now, we'll assume they meet the requirement
+        if (hasIcebreakerBadge[msg.sender]) {
+            revert BadgeAlreadyClaimed("Icebreaker");
+        }
+        if (bytes(icebreakerBadgeURI).length == 0) {
+            revert BadgeURINotSet("Icebreaker");
+        }
+        if (address(icebreakerContract) == address(0)) {
+            revert ContractNotSet("IcebreakerContract");
+        }
+        
+        uint256 activityCount = icebreakerContract.getUserIcebreakerActivityCount(msg.sender);
+        if (activityCount < icebreakerRequirement) {
+            revert RequirementNotMet("Icebreaker", icebreakerRequirement, activityCount);
+        }
         
         _tokenIdCounter++;
         uint256 badgeId = _tokenIdCounter;

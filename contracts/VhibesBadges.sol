@@ -4,10 +4,16 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./VhibesPoints.sol";
+import "./RoastMeContract.sol";
+import "./ChainReactionContract.sol";
+import "./IcebreakerContract.sol";
 
 contract VhibesBadges is ERC721, Ownable {
     
     VhibesPoints public pointsContract;
+    RoastMeContract public roastContract;
+    ChainReactionContract public chainReactionContract;
+    IcebreakerContract public icebreakerContract;
     
     uint256 private _tokenIdCounter;
     string public baseURI;
@@ -61,6 +67,19 @@ contract VhibesBadges is ERC721, Ownable {
 
     function setPointsContract(address _pointsContract) external onlyOwner {
         pointsContract = VhibesPoints(_pointsContract);
+    }
+
+    function setContracts(
+        address _roastContract,
+        address _chainReactionContract,
+        address _icebreakerContract
+    ) external onlyOwner {
+        require(_roastContract != address(0), "Invalid roast contract address");
+        require(_chainReactionContract != address(0), "Invalid chain reaction contract address");
+        require(_icebreakerContract != address(0), "Invalid icebreaker contract address");
+        roastContract = RoastMeContract(_roastContract);
+        chainReactionContract = ChainReactionContract(_chainReactionContract);
+        icebreakerContract = IcebreakerContract(_icebreakerContract);
     }
 
     function authorizeMinter(address minter) external onlyOwner {

@@ -118,11 +118,29 @@ contract VhibesBadges is ERC721, Ownable {
 
     // User claim functions (inspired by vhibes)
     function claimFirstActivityBadge() external {
-        require(!hasFirstActivityBadge[msg.sender], "First activity badge already claimed");
-        require(bytes(firstActivityBadgeURI).length > 0, "Badge URI not set by owner");
+        if (hasFirstActivityBadge[msg.sender]) {
+            revert BadgeAlreadyClaimed("First Activity");
+        }
+        if (bytes(firstActivityBadgeURI).length == 0) {
+            revert BadgeURINotSet("First Activity");
+        }
         
-        // Check if user has any activity (this would be tracked by other contracts)
-        // For now, we'll assume they have activity if they're calling this function
+        // Check if user has any activity across all contracts
+        uint256 totalActivity = 0;
+        
+        if (address(roastContract) != address(0)) {
+            totalActivity += roastContract.getUserRoastCount(msg.sender);
+        }
+        if (address(chainReactionContract) != address(0)) {
+            totalActivity += chainReactionContract.getUserChainParticipationCount(msg.sender);
+        }
+        if (address(icebreakerContract) != address(0)) {
+            totalActivity += icebreakerContract.getUserIcebreakerActivityCount(msg.sender);
+        }
+        
+        if (totalActivity < firstActivityRequirement) {
+            revert RequirementNotMet("First Activity", firstActivityRequirement, totalActivity);
+        }
         
         _tokenIdCounter++;
         uint256 badgeId = _tokenIdCounter;

@@ -296,4 +296,132 @@ contract IcebreakerContract is Ownable {
         // Returns total icebreaker activities: prompts + responses
         return userPromptCount[user] + userResponseCount[user];
     }
+
+    function getTopIcebreakerUsers(uint256 limit) external view returns (address[] memory, uint256[] memory) {
+        require(limit <= 100, "Limit too high");
+        
+        // Collect unique users from prompts, responses, and polls
+        address[] memory tempUsers = new address[](_promptIdCounter + _pollIdCounter);
+        uint256[] memory tempCounts = new uint256[](_promptIdCounter + _pollIdCounter);
+        uint256 uniqueUserCount = 0;
+        
+        // Helper to add or update user in our list
+        // Collect users from prompts
+        for (uint256 i = 1; i <= _promptIdCounter; i++) {
+            if (prompts[i].exists) {
+                address user = prompts[i].creator;
+                uint256 activityCount = userPromptCount[user] + userResponseCount[user];
+                
+                // Check if user already in list
+                bool found = false;
+                for (uint256 j = 0; j < uniqueUserCount; j++) {
+                    if (tempUsers[j] == user) {
+                        // Update count if needed
+                        tempCounts[j] = activityCount;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    tempUsers[uniqueUserCount] = user;
+                    tempCounts[uniqueUserCount] = activityCount;
+                    uniqueUserCount++;
+                }
+            }
+        }
+        
+        // Collect users from responses
+        for (uint256 i = 1; i <= _promptIdCounter; i++) {
+            if (prompts[i].exists) {
+                Response[] memory responses = promptResponses[i];
+                for (uint256 j = 0; j < responses.length; j++) {
+                    if (responses[j].exists) {
+                        address user = responses[j].responder;
+                        uint256 activityCount = userPromptCount[user] + userResponseCount[user];
+                        
+                        // Check if user already in list
+                        bool found = false;
+                        for (uint256 k = 0; k < uniqueUserCount; k++) {
+                            if (tempUsers[k] == user) {
+                                tempCounts[k] = activityCount;
+                                found = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!found) {
+                            tempUsers[uniqueUserCount] = user;
+                            tempCounts[uniqueUserCount] = activityCount;
+                            uniqueUserCount++;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Collect users from polls
+        for (uint256 i = 1; i <= _pollIdCounter; i++) {
+            if (polls[i].exists) {
+                address user = polls[i].creator;
+                uint256 activityCount = userPromptCount[user] + userResponseCount[user];
+                
+                // Check if user already in list
+                bool found = false;
+                for (uint256 j = 0; j < uniqueUserCount; j++) {
+                    if (tempUsers[j] == user) {
+                        tempCounts[j] = activityCount;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    tempUsers[uniqueUserCount] = user;
+                    tempCounts[uniqueUserCount] = activityCount;
+                    uniqueUserCount++;
+                }
+            }
+        }
+        
+        if (uniqueUserCount == 0) {
+            return (new address[](0), new uint256[](0));
+        }
+        
+        // Create properly sized arrays
+        address[] memory users = new address[](uniqueUserCount);
+        uint256[] memory counts = new uint256[](uniqueUserCount);
+        
+        for (uint256 i = 0; i < uniqueUserCount; i++) {
+            users[i] = tempUsers[i];
+            counts[i] = tempCounts[i];
+        }
+        
+        // Sort by activity count (descending) using insertion sort
+        for (uint256 i = 1; i < uniqueUserCount; i++) {
+            address keyUser = users[i];
+            uint256 keyCount = counts[i];
+            uint256 j = i;
+            
+            while (j > 0 && counts[j - 1] < keyCount) {
+                users[j] = users[j - 1];
+                counts[j] = counts[j - 1];
+                j--;
+            }
+            users[j] = keyUser;
+            counts[j] = keyCount;
+        }
+        
+        // Return top 'limit' users
+        uint256 resultSize = uniqueUserCount < limit ? uniqueUserCount : limit;
+        address[] memory topUsers = new address[](resultSize);
+        uint256[] memory topCounts = new uint256[](resultSize);
+        
+        for (uint256 i = 0; i < resultSize; i++) {
+            topUsers[i] = users[i];
+            topCounts[i] = counts[i];
+        }
+        
+        return (topUsers, topCounts);
+    }
 }

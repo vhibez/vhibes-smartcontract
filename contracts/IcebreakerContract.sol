@@ -291,4 +291,9 @@ contract IcebreakerContract is Ownable {
         require(polls[pollId].votes[user] > 0, "User has not voted");
         return polls[pollId].votes[user] - 1; // Convert back to 0-based index
     }
+
+    function getUserIcebreakerActivityCount(address user) external view returns (uint256) {
+        // Returns total icebreaker activities: prompts + responses
+        return userPromptCount[user] + userResponseCount[user];
+    }
 }

@@ -145,4 +145,8 @@ contract RoastMeContract is Ownable {
         require(hasVoted[user][roastId], "User has not voted");
         return voteType[user][roastId];
     }
+
+    function getUserRoastCount(address user) external view returns (uint256) {
+        return userRoasts[user].length;
+    }
 }

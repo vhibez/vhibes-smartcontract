@@ -153,9 +153,20 @@ contract VhibesBadges is ERC721, Ownable {
     }
 
     function claimLoginStreakBadge() external {
-        require(!hasLoginStreakBadge[msg.sender], "Login streak badge already claimed");
-        require(bytes(loginStreakBadgeURI).length > 0, "Badge URI not set by owner");
-        require(pointsContract.getLoginStreak(msg.sender) >= loginStreakRequirement, "Login streak requirement not met");
+        if (hasLoginStreakBadge[msg.sender]) {
+            revert BadgeAlreadyClaimed("Login Streak");
+        }
+        if (bytes(loginStreakBadgeURI).length == 0) {
+            revert BadgeURINotSet("Login Streak");
+        }
+        if (address(pointsContract) == address(0)) {
+            revert ContractNotSet("VhibesPoints");
+        }
+        
+        uint256 loginStreak = pointsContract.getLoginStreak(msg.sender);
+        if (loginStreak < loginStreakRequirement) {
+            revert RequirementNotMet("Login Streak", loginStreakRequirement, loginStreak);
+        }
         
         _tokenIdCounter++;
         uint256 badgeId = _tokenIdCounter;
@@ -168,9 +179,20 @@ contract VhibesBadges is ERC721, Ownable {
     }
 
     function claimActivityStreakBadge() external {
-        require(!hasActivityStreakBadge[msg.sender], "Activity streak badge already claimed");
-        require(bytes(activityStreakBadgeURI).length > 0, "Badge URI not set by owner");
-        require(pointsContract.getActivityStreak(msg.sender) >= activityStreakRequirement, "Activity streak requirement not met");
+        if (hasActivityStreakBadge[msg.sender]) {
+            revert BadgeAlreadyClaimed("Activity Streak");
+        }
+        if (bytes(activityStreakBadgeURI).length == 0) {
+            revert BadgeURINotSet("Activity Streak");
+        }
+        if (address(pointsContract) == address(0)) {
+            revert ContractNotSet("VhibesPoints");
+        }
+        
+        uint256 activityStreak = pointsContract.getActivityStreak(msg.sender);
+        if (activityStreak < activityStreakRequirement) {
+            revert RequirementNotMet("Activity Streak", activityStreakRequirement, activityStreak);
+        }
         
         _tokenIdCounter++;
         uint256 badgeId = _tokenIdCounter;

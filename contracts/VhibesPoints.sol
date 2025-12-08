@@ -246,13 +246,85 @@ contract VhibesPoints is Ownable {
     function getLeaderboard(uint256 startIndex, uint256 endIndex) external view returns (address[] memory, uint256[] memory) {
         require(startIndex < endIndex, "Invalid range");
         require(endIndex - startIndex <= 100, "Range too large");
+        require(endIndex <= userList.length, "End index out of bounds");
         
-        // This is a simplified leaderboard - in production you might want a more sophisticated approach
-        // For now, we'll return empty arrays as this would require tracking all users
-        address[] memory users = new address[](0);
-        uint256[] memory points = new uint256[](0);
+        uint256 length = endIndex - startIndex;
+        address[] memory users = new address[](length);
+        uint256[] memory points = new uint256[](length);
+        
+        for (uint256 i = 0; i < length; i++) {
+            users[i] = userList[startIndex + i];
+            points[i] = userPoints[users[i]];
+        }
         
         return (users, points);
+    }
+
+    function getTopUsers(uint256 limit) external view returns (address[] memory, uint256[] memory) {
+        require(limit <= 100, "Limit too high");
+        
+        if (userList.length == 0) {
+            return (new address[](0), new uint256[](0));
+        }
+        
+        // Create array of user addresses with their points for sorting
+        address[] memory sortedUsers = new address[](userList.length);
+        uint256[] memory sortedPoints = new uint256[](userList.length);
+        
+        // Copy all users and points
+        for (uint256 i = 0; i < userList.length; i++) {
+            sortedUsers[i] = userList[i];
+            sortedPoints[i] = userPoints[userList[i]];
+        }
+        
+        // Sort by points (descending) using insertion sort
+        for (uint256 i = 1; i < sortedUsers.length; i++) {
+            address keyUser = sortedUsers[i];
+            uint256 keyPoints = sortedPoints[i];
+            uint256 j = i;
+            
+            while (j > 0 && sortedPoints[j - 1] < keyPoints) {
+                sortedUsers[j] = sortedUsers[j - 1];
+                sortedPoints[j] = sortedPoints[j - 1];
+                j--;
+            }
+            sortedUsers[j] = keyUser;
+            sortedPoints[j] = keyPoints;
+        }
+        
+        // Return top 'limit' users
+        uint256 resultSize = userList.length < limit ? userList.length : limit;
+        address[] memory topUsers = new address[](resultSize);
+        uint256[] memory topPoints = new uint256[](resultSize);
+        
+        for (uint256 i = 0; i < resultSize; i++) {
+            topUsers[i] = sortedUsers[i];
+            topPoints[i] = sortedPoints[i];
+        }
+        
+        return (topUsers, topPoints);
+    }
+
+    function getUserRank(address user) external view returns (uint256) {
+        if (userPoints[user] == 0 && !isUserTracked[user]) {
+            return 0; // User not in leaderboard
+        }
+        
+        uint256 userPointsValue = userPoints[user];
+        uint256 rank = 1;
+        
+        // Count users with more points
+        for (uint256 i = 0; i < userList.length; i++) {
+            if (userPoints[userList[i]] > userPointsValue) {
+                rank++;
+            }
+        }
+        
+        return rank;
+    }
+
+    function getTotalUsers() external view returns (uint256) {
+        return userList.length;
     }
 
     function isAuthorized(address contractAddress) external view returns (bool) {

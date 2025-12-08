@@ -211,6 +211,25 @@ This document outlines the tasks and improvements needed for the Vhibes smart co
 - [ ] Test pause/unpause functionality (once implemented)
 - [ ] Test view functions (stats, user data)
 - [ ] Test authorization checks (only authorized admins can call functions)
+- [ ] Test `incrementTempTest()` function:
+  - [ ] Test that only authorized admins can increment counter
+  - [ ] Test that unauthorized users cannot increment counter
+  - [ ] Test that counter increments correctly
+  - [ ] Test that `TempTestCounterIncremented` event is emitted with correct values
+  - [ ] Test multiple increments in sequence
+- [ ] Test `decrementTempTest()` function:
+  - [ ] Test that only authorized admins can decrement counter
+  - [ ] Test that unauthorized users cannot decrement counter
+  - [ ] Test that counter decrements correctly
+  - [ ] Test that counter cannot go below zero (underflow protection)
+  - [ ] Test that `TempTestCounterDecremented` event is emitted with correct values
+  - [ ] Test decrementing from zero (should revert)
+  - [ ] Test multiple decrements in sequence
+- [ ] Test `getTempTestCount()` function:
+  - [ ] Test that function returns correct counter value
+  - [ ] Test that function is publicly accessible (view function)
+  - [ ] Test that function returns zero initially
+  - [ ] Test that function returns updated value after increments/decrements
 
 #### Integration Tests
 - [ ] Test full user flow: login → submit roast → vote → earn points → claim badge

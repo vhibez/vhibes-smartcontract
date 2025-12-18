@@ -60,7 +60,21 @@ export async function deployContractsFixture() {
     "ipfs://activityStreak",
     "ipfs://topRoaster",
     "ipfs://chainMaster",
+    "ipfs://chainMaster",
     "ipfs://icebreaker"
+  );
+
+  // Deploy VhibesAdmin
+  const VhibesAdmin = await ethers.getContractFactory("VhibesAdmin");
+  const vhibesAdmin = await VhibesAdmin.deploy(owner.address);
+
+  // Set contracts in VhibesAdmin
+  await vhibesAdmin.setContracts(
+    await pointsContract.getAddress(),
+    await badgesContract.getAddress(),
+    await roastContract.getAddress(),
+    await icebreakerContract.getAddress(),
+    await chainReactionContract.getAddress()
   );
 
   return {
@@ -73,6 +87,7 @@ export async function deployContractsFixture() {
     roastContract,
     chainReactionContract,
     icebreakerContract,
+    vhibesAdmin,
   };
 }
 

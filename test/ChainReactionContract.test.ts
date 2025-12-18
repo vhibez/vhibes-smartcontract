@@ -325,7 +325,9 @@ describe("ChainReactionContract", function () {
       await chainReactionContract.connect(user1).startChallenge("Challenge 3", "");
 
       const activeChallenges = await chainReactionContract.getActiveChallenges(10);
-      expect(activeChallenges.length).to.equal(3);
+      // Contract returns fixed-size array with zero padding, filter out zeros
+      const nonZeroChallenges = activeChallenges.filter((id: bigint) => id > 0n);
+      expect(nonZeroChallenges.length).to.equal(3);
     });
 
     it("Should respect limit in getActiveChallenges", async function () {

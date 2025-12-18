@@ -79,4 +79,115 @@ describe("RoastMeContract", function () {
       ).to.be.revertedWith("Invalid roast hash");
     });
   });
+
+  describe("Voting Functionality", function () {
+    it("Should allow voting funny on a roast", async function () {
+      const { roastContract, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      await roastContract.connect(user1).submitRoast("ipfs://original", "ipfs://roast");
+      
+      await expect(roastContract.connect(user2).voteRoast(1, true))
+        .to.emit(roastContract, "RoastVoted")
+        .withArgs(user2.address, 1, true);
+
+      const roast = await roastContract.getRoast(1);
+      expect(roast.funnyVotes).to.equal(1);
+      expect(roast.mehVotes).to.equal(0);
+    });
+
+    it("Should allow voting meh on a roast", async function () {
+      const { roastContract, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      await roastContract.connect(user1).submitRoast("ipfs://original", "ipfs://roast");
+      
+      await expect(roastContract.connect(user2).voteRoast(1, false))
+        .to.emit(roastContract, "RoastVoted")
+        .withArgs(user2.address, 1, false);
+
+      const roast = await roastContract.getRoast(1);
+      expect(roast.funnyVotes).to.equal(0);
+      expect(roast.mehVotes).to.equal(1);
+    });
+
+    it("Should prevent double voting", async function () {
+      const { roastContract, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      await roastContract.connect(user1).submitRoast("ipfs://original", "ipfs://roast");
+      await roastContract.connect(user2).voteRoast(1, true);
+
+      await expect(
+        roastContract.connect(user2).voteRoast(1, false)
+      ).to.be.revertedWith("Already voted on this roast");
+    });
+
+    it("Should prevent self-voting", async function () {
+      const { roastContract, user1 } = await loadFixture(deployContractsFixture);
+
+      await roastContract.connect(user1).submitRoast("ipfs://original", "ipfs://roast");
+
+      await expect(
+        roastContract.connect(user1).voteRoast(1, true)
+      ).to.be.revertedWith("Cannot vote on your own roast");
+    });
+
+    it("Should award points correctly for funny vote", async function () {
+      const { roastContract, pointsContract, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      // User1 submits
+      await roastContract.connect(user1).submitRoast("ipfs://original", "ipfs://roast");
+      
+      const submitterPointsBefore = await pointsContract.getPoints(user1.address);
+      const voterPointsBefore = await pointsContract.getPoints(user2.address);
+
+      // User2 votes funny
+      await roastContract.connect(user2).voteRoast(1, true);
+
+      const submitterPointsAfter = await pointsContract.getPoints(user1.address);
+      const voterPointsAfter = await pointsContract.getPoints(user2.address);
+
+      // Voter gets 1 point
+      expect(voterPointsAfter - voterPointsBefore).to.equal(1);
+      // Submitter gets 5 points (bonus for funny)
+      expect(submitterPointsAfter - submitterPointsBefore).to.equal(5);
+    });
+
+    it("Should award points correctly for meh vote", async function () {
+      const { roastContract, pointsContract, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      // User1 submits
+      await roastContract.connect(user1).submitRoast("ipfs://original", "ipfs://roast");
+      
+      const submitterPointsBefore = await pointsContract.getPoints(user1.address);
+      const voterPointsBefore = await pointsContract.getPoints(user2.address);
+
+      // User2 votes meh
+      await roastContract.connect(user2).voteRoast(1, false);
+
+      const submitterPointsAfter = await pointsContract.getPoints(user1.address);
+      const voterPointsAfter = await pointsContract.getPoints(user2.address);
+
+      // Voter gets 1 point
+      expect(voterPointsAfter - voterPointsBefore).to.equal(1);
+      // Submitter gets 0 points for meh
+      expect(submitterPointsAfter - submitterPointsBefore).to.equal(0);
+    });
+
+    it("Should track user votes correctly", async function () {
+      const { roastContract, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      await roastContract.connect(user1).submitRoast("ipfs://original", "ipfs://roast");
+      await roastContract.connect(user2).voteRoast(1, true);
+
+      expect(await roastContract.hasUserVoted(user2.address, 1)).to.be.true;
+      expect(await roastContract.getUserVote(user2.address, 1)).to.be.true; // true = funny
+    });
+
+    it("Should revert if voting on non-existent roast", async function () {
+      const { roastContract, user1 } = await loadFixture(deployContractsFixture);
+
+      await expect(
+        roastContract.connect(user1).voteRoast(999, true)
+      ).to.be.revertedWith("Roast does not exist");
+    });
+  });
 });

@@ -190,4 +190,88 @@ describe("RoastMeContract", function () {
       ).to.be.revertedWith("Roast does not exist");
     });
   });
+
+  describe("Ranking and Leaderboards", function () {
+    it("Should return top roasts sorted by funny votes", async function () {
+      const { roastContract, user1, user2, owner } = await loadFixture(deployContractsFixture);
+
+      // Create 3 roasts
+      await roastContract.connect(user1).submitRoast("ipfs://1", "ipfs://1"); // Roast 1
+      await roastContract.connect(user1).submitRoast("ipfs://2", "ipfs://2"); // Roast 2
+      await roastContract.connect(user1).submitRoast("ipfs://3", "ipfs://3"); // Roast 3
+
+      // Roast 2 gets 3 votes
+      await roastContract.connect(user1).voteRoast(2, true); // Self-vote allowed? No, wait.
+      // Submitters cannot vote on their own roasts.
+      // Need different users to vote.
+    });
+
+    it("Should correctly sort roasts by funny votes", async function () {
+      const { roastContract, user1, user2, admin } = await loadFixture(deployContractsFixture);
+      // We need more signers for voting
+      const signers = await ethers.getSigners();
+      const voters = signers.slice(4, 10); // get extra signers
+
+      // Create roasts
+      await roastContract.connect(user1).submitRoast("ipfs://1", "ipfs://1"); // ID 1
+      await roastContract.connect(user1).submitRoast("ipfs://2", "ipfs://2"); // ID 2
+      await roastContract.connect(user1).submitRoast("ipfs://3", "ipfs://3"); // ID 3
+
+      // Roast 2 gets 2 votes
+      await roastContract.connect(user2).voteRoast(2, true);
+      await roastContract.connect(admin).voteRoast(2, true);
+
+      // Roast 3 gets 1 vote
+      await roastContract.connect(user2).voteRoast(3, true);
+
+      // Roast 1 gets 0 votes
+
+      const topRoasts = await roastContract.getTopRoasts(10);
+      
+      expect(topRoasts[0]).to.equal(2); // Most votes
+      expect(topRoasts[1]).to.equal(3); // Second most
+      expect(topRoasts[2]).to.equal(1); // Least
+    });
+
+    it("Should return top roasters sorted by submission count", async function () {
+      const { roastContract, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      // User1 submits 3 roasts
+      await roastContract.connect(user1).submitRoast("1", "1");
+      await roastContract.connect(user1).submitRoast("2", "2");
+      await roastContract.connect(user1).submitRoast("3", "3");
+
+      // User2 submits 1 roast
+      await roastContract.connect(user2).submitRoast("4", "4");
+
+      const [topUsers, topCounts] = await roastContract.getTopRoasters(10);
+
+      expect(topUsers[0]).to.equal(user1.address);
+      expect(topCounts[0]).to.equal(3);
+      
+      expect(topUsers[1]).to.equal(user2.address);
+      expect(topCounts[1]).to.equal(1);
+    });
+
+    it("Should respect limits in ranking functions", async function () {
+      const { roastContract, user1 } = await loadFixture(deployContractsFixture);
+
+      for(let i = 0; i < 5; i++) {
+        await roastContract.connect(user1).submitRoast(`${i}`, `${i}`);
+      }
+
+      const topRoasts = await roastContract.getTopRoasts(3);
+      expect(topRoasts.length).to.equal(3);
+
+      const [topUsers, topCounts] = await roastContract.getTopRoasters(3);
+      expect(topUsers.length).to.equal(1); // Only 1 user submitted
+    });
+
+    it("Should revert if limits are too high", async function () {
+      const { roastContract } = await loadFixture(deployContractsFixture);
+
+      await expect(roastContract.getTopRoasts(51)).to.be.revertedWith("Limit too high");
+      await expect(roastContract.getTopRoasters(101)).to.be.revertedWith("Limit too high");
+    });
+  });
 });

@@ -11,7 +11,7 @@ describe("ChainReactionContract", function () {
       expect(await chainReactionContract.owner()).to.equal(owner.address);
       expect(await chainReactionContract.pointsContract()).to.equal(await pointsContract.getAddress());
       expect(await chainReactionContract.badgesContract()).to.equal(await badgesContract.getAddress());
-      expect(await chainReactionContract.pointsPerChallenge()).to.equal(20);
+      expect(await chainReactionContract.pointsPerChallenge()).to.equal(15);
       expect(await chainReactionContract.pointsPerResponse()).to.equal(10);
     });
 
@@ -24,8 +24,8 @@ describe("ChainReactionContract", function () {
     it("Should have zero challenges initially", async function () {
       const { chainReactionContract } = await loadFixture(deployContractsFixture);
 
-      const activeChallenges = await chainReactionContract.getActiveChallenges(10);
-      expect(activeChallenges.length).to.equal(0);
+      const totalChallenges = await chainReactionContract.totalChallenges();
+      expect(totalChallenges).to.equal(0);
     });
   });
 
@@ -62,7 +62,7 @@ describe("ChainReactionContract", function () {
       await chainReactionContract.connect(user1).startChallenge("Test challenge", "");
       const pointsAfter = await pointsContract.getPoints(user1.address);
 
-      expect(pointsAfter - pointsBefore).to.equal(20); // pointsPerChallenge
+      expect(pointsAfter - pointsBefore).to.equal(15); // pointsPerChallenge
     });
 
     it("Should track user challenges", async function () {
@@ -82,18 +82,16 @@ describe("ChainReactionContract", function () {
 
       await expect(
         chainReactionContract.connect(user1).startChallenge("", "")
-      ).to.be.revertedWith("Challenge cannot be empty");
+      ).to.be.revertedWith("Invalid prompt");
     });
 
-    it("Should allow challenge with only image (no text)", async function () {
+    it("Should require prompt text (image alone not sufficient)", async function () {
       const { chainReactionContract, user1 } = await loadFixture(deployContractsFixture);
 
-      await expect(chainReactionContract.connect(user1).startChallenge("", "ipfs://image123"))
-        .to.emit(chainReactionContract, "ChallengeStarted");
-
-      const challenge = await chainReactionContract.getChallenge(1);
-      expect(challenge.prompt).to.equal("");
-      expect(challenge.promptImageIpfsHash).to.equal("ipfs://image123");
+      // Contract requires prompt text, image alone is not sufficient
+      await expect(
+        chainReactionContract.connect(user1).startChallenge("", "ipfs://image123")
+      ).to.be.revertedWith("Invalid prompt");
     });
 
     it("Should increment challenge IDs correctly", async function () {

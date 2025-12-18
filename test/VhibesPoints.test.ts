@@ -194,4 +194,104 @@ describe("VhibesPoints", function () {
       });
     });
   });
+
+  describe("Level Management", function () {
+    it("Should allow owner to add a level", async function () {
+      const { pointsContract, owner } = await loadFixture(deployContractsFixture);
+
+      await expect(pointsContract.connect(owner).addLevel("God Mode", 5000))
+        .to.emit(pointsContract, "LevelAdded")
+        .withArgs(5, "God Mode", 5000); // 5th index (0-4 existed)
+
+      const names = (await pointsContract.getLevels())[0];
+      expect(names[5]).to.equal("God Mode");
+    });
+
+    it("Should allow owner to update a level", async function () {
+      const { pointsContract, owner } = await loadFixture(deployContractsFixture);
+
+      await expect(pointsContract.connect(owner).updateLevel(0, "Baby Vibe", 10))
+        .to.emit(pointsContract, "LevelUpdated")
+        .withArgs(0, "Baby Vibe", 10);
+
+      const level = await pointsContract.getLevel(0);
+      expect(level.name).to.equal("Baby Vibe");
+      expect(level.minPoints).to.equal(10);
+    });
+
+    it("Should determine user level correctly", async function () {
+      const { pointsContract, owner, user1 } = await loadFixture(deployContractsFixture);
+
+      // Default: Newbie (0), Enthusiast (50), Pro (200), Legend (500), Master (1000)
+      
+      // 0 points
+      let [name, id] = await pointsContract.getUserLevel(user1.address);
+      expect(name).to.equal("Vibe Newbie");
+      expect(id).to.equal(0);
+
+      // 60 points
+      await pointsContract.connect(owner).earnPoints(user1.address, 60, "Award");
+      [name, id] = await pointsContract.getUserLevel(user1.address);
+      expect(name).to.equal("Vibe Enthusiast");
+      expect(id).to.equal(1);
+
+      // 1500 points
+      await pointsContract.connect(owner).earnPoints(user1.address, 1440, "Award"); // Total 1500
+      [name, id] = await pointsContract.getUserLevel(user1.address);
+      expect(name).to.equal("Vibe Master");
+      expect(id).to.equal(4);
+    });
+  });
+
+  describe("Leaderboard", function () {
+    it("Should return top users sorted by points", async function () {
+      const { pointsContract, owner, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      // User1: 100 points
+      await pointsContract.connect(owner).earnPoints(user1.address, 100, "Setup");
+      // User2: 200 points
+      await pointsContract.connect(owner).earnPoints(user2.address, 200, "Setup");
+      // Owner: 50 points
+      await pointsContract.connect(owner).earnPoints(owner.address, 50, "Setup");
+
+      const [topUsers, topPoints] = await pointsContract.getTopUsers(10);
+      
+      expect(topUsers[0]).to.equal(user2.address);
+      expect(topPoints[0]).to.equal(200);
+      
+      expect(topUsers[1]).to.equal(user1.address);
+      expect(topPoints[1]).to.equal(100);
+      
+      expect(topUsers[2]).to.equal(owner.address);
+      expect(topPoints[2]).to.equal(50);
+    });
+
+    it("Should return correct user rank", async function () {
+      const { pointsContract, owner, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      // User1: 100
+      await pointsContract.connect(owner).earnPoints(user1.address, 100, "Setup");
+      // User2: 200
+      await pointsContract.connect(owner).earnPoints(user2.address, 200, "Setup");
+      
+      expect(await pointsContract.getUserRank(user2.address)).to.equal(1);
+      expect(await pointsContract.getUserRank(user1.address)).to.equal(2);
+    });
+    
+    it("Should handle pagination in getLeaderboard", async function () {
+      const { pointsContract, owner, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      await pointsContract.connect(owner).earnPoints(user1.address, 100, "Setup");
+      await pointsContract.connect(owner).earnPoints(user2.address, 200, "Setup");
+      
+      // User list order depends on insertion. 
+      // earnPoints pushes if not tracked.
+      // user1 first, then user2.
+      // So UserList: [user1, user2]
+      
+      const [users, points] = await pointsContract.getLeaderboard(0, 1);
+      expect(users.length).to.equal(1);
+      expect(users[0]).to.equal(user1.address);
+    });
+  });
 });

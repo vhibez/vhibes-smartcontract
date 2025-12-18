@@ -192,19 +192,7 @@ describe("RoastMeContract", function () {
   });
 
   describe("Ranking and Leaderboards", function () {
-    it("Should return top roasts sorted by funny votes", async function () {
-      const { roastContract, user1, user2, owner } = await loadFixture(deployContractsFixture);
 
-      // Create 3 roasts
-      await roastContract.connect(user1).submitRoast("ipfs://1", "ipfs://1"); // Roast 1
-      await roastContract.connect(user1).submitRoast("ipfs://2", "ipfs://2"); // Roast 2
-      await roastContract.connect(user1).submitRoast("ipfs://3", "ipfs://3"); // Roast 3
-
-      // Roast 2 gets 3 votes
-      await roastContract.connect(user1).voteRoast(2, true); // Self-vote allowed? No, wait.
-      // Submitters cannot vote on their own roasts.
-      // Need different users to vote.
-    });
 
     it("Should correctly sort roasts by funny votes", async function () {
       const { roastContract, user1, user2, admin } = await loadFixture(deployContractsFixture);

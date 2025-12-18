@@ -54,6 +54,7 @@ contract IcebreakerContract is Ownable {
     uint256 private _categoryIdCounter;
     uint256 private _promptIdCounter;
     uint256 private _pollIdCounter;
+    uint256 private _responseCounter;
     uint256 public pointsPerPrompt = 15;
     uint256 public pointsPerResponse = 5;
     uint256 public pointsPerVote = 1;
@@ -139,6 +140,7 @@ contract IcebreakerContract is Ownable {
         promptResponses[promptId].push(newResponse);
         userResponses[msg.sender].push(promptId);
         userResponseCount[msg.sender]++;
+        _responseCounter++;
         
         // Award points for responding
         pointsContract.earnPoints(msg.sender, pointsPerResponse, "Icebreaker response");
@@ -283,6 +285,10 @@ contract IcebreakerContract is Ownable {
         return _pollIdCounter;
     }
 
+    function totalResponses() external view returns (uint256) {
+        return _responseCounter;
+    }
+
     function hasUserVoted(address user, uint256 pollId) external view returns (bool) {
         return polls[pollId].votes[user] > 0;
     }
@@ -301,8 +307,9 @@ contract IcebreakerContract is Ownable {
         require(limit <= 100, "Limit too high");
         
         // Collect unique users from prompts, responses, and polls
-        address[] memory tempUsers = new address[](_promptIdCounter + _pollIdCounter);
-        uint256[] memory tempCounts = new uint256[](_promptIdCounter + _pollIdCounter);
+        uint256 totalItems = _promptIdCounter + _pollIdCounter + _responseCounter;
+        address[] memory tempUsers = new address[](totalItems);
+        uint256[] memory tempCounts = new uint256[](totalItems);
         uint256 uniqueUserCount = 0;
         
         // Helper to add or update user in our list

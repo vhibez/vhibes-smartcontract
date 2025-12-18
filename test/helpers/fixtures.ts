@@ -60,7 +60,6 @@ export async function deployContractsFixture() {
     "ipfs://activityStreak",
     "ipfs://topRoaster",
     "ipfs://chainMaster",
-    "ipfs://chainMaster",
     "ipfs://icebreaker"
   );
 

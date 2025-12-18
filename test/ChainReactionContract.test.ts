@@ -225,7 +225,7 @@ describe("ChainReactionContract", function () {
 
       const nestedResponse = await chainReactionContract.getResponse(2);
       expect(nestedResponse.parentResponseId).to.equal(1);
-      expect(nestedResponse.challengeId).to.equal(1);
+      expect(nestedResponse.parentChallengeId).to.equal(1);
     });
 
     it("Should track child responses correctly", async function () {

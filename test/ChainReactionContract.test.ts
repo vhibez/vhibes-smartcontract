@@ -274,7 +274,7 @@ describe("ChainReactionContract", function () {
 
       await expect(
         chainReactionContract.connect(user2).joinChallenge(2, 1, "Wrong parent", "")
-      ).to.be.revertedWith("Parent response does not belong to this challenge");
+      ).to.be.revertedWith("Parent response not in this challenge");
     });
 
     it("Should award points for nested responses", async function () {

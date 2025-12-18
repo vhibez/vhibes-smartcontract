@@ -200,4 +200,66 @@ describe("IcebreakerContract", function () {
       expect(pointsAfter - pointsBefore).to.equal(1); // pointsPerVote
     });
   });
+
+  describe("View Functions and Ranking", function () {
+    it("Should get top icebreaker users sorted by activity", async function () {
+      const { icebreakerContract, owner, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      await icebreakerContract.connect(owner).createCategory("Cat", "Desc");
+
+      // User1: 2 activities (1 create, 1 response)
+      await icebreakerContract.connect(user1).createPrompt("P1", "Cat");
+      const p1Id = 1;
+      await icebreakerContract.connect(user1).submitResponse(p1Id, "R1", ""); // Responding to own prompt counts? Yes.
+
+      // User2: 3 activities (3 responses)
+      await icebreakerContract.connect(user2).submitResponse(p1Id, "R2", "");
+      await icebreakerContract.connect(user2).submitResponse(p1Id, "R3", "");
+      await icebreakerContract.connect(user2).submitResponse(p1Id, "R4", "");
+
+      const [topUsers, topCounts] = await icebreakerContract.getTopIcebreakerUsers(10);
+      
+      expect(topUsers[0]).to.equal(user2.address);
+      expect(topCounts[0]).to.equal(3);
+      
+      expect(topUsers[1]).to.equal(user1.address);
+      expect(topCounts[1]).to.equal(2);
+    });
+
+    it("Should not count poll creation towards activity count in leaderboard", async function () {
+      const { icebreakerContract, owner, user1, user2 } = await loadFixture(deployContractsFixture);
+      
+      // User1 creates a poll (validating current contract logic)
+      await icebreakerContract.connect(user1).createPoll("Q?", ["A", "B"]);
+      
+      // User2 creates a prompt
+      await icebreakerContract.connect(owner).createCategory("Cat", "Desc");
+      await icebreakerContract.connect(user2).createPrompt("P1", "Cat");
+
+      const [topUsers, topCounts] = await icebreakerContract.getTopIcebreakerUsers(10);
+
+      // User2 should be first with 1 activity
+      expect(topUsers[0]).to.equal(user2.address);
+      expect(topCounts[0]).to.equal(1);
+      
+      // User1 might be in the list but with 0 activity count
+      // Or might be second
+      if (topUsers.length > 1) {
+        expect(topUsers[1]).to.equal(user1.address);
+        expect(topCounts[1]).to.equal(0);
+      }
+    });
+
+    it("Should return correct user values", async function () {
+      const { icebreakerContract, owner, user1 } = await loadFixture(deployContractsFixture);
+
+      await icebreakerContract.connect(owner).createCategory("Cat", "Desc");
+      await icebreakerContract.connect(user1).createPrompt("P1", "Cat");
+      await icebreakerContract.connect(user1).submitResponse(1, "R1", "");
+
+      expect(await icebreakerContract.getUserPromptCount(user1.address)).to.equal(1);
+      expect(await icebreakerContract.getUserResponseCount(user1.address)).to.equal(1);
+      expect(await icebreakerContract.getUserIcebreakerActivityCount(user1.address)).to.equal(2);
+    });
+  });
 });

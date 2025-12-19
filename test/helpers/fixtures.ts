@@ -6,7 +6,7 @@ export async function deployContractsFixture() {
 
   // Deploy VhibesPoints
   const VhibesPoints = await ethers.getContractFactory("VhibesPoints");
-  const pointsContract = await VhibesPoints.deploy(owner.address);
+  const pointsContract = (await VhibesPoints.deploy(owner.address)) as any;
 
   // Deploy VhibesBadges
   const VhibesBadges = await ethers.getContractFactory("VhibesBadges");
@@ -15,7 +15,7 @@ export async function deployContractsFixture() {
     "Vhibes Badges",
     "VHIBES",
     "https://vhibes.vercel.app/badges/"
-  );
+  ) as any;
 
   // Deploy RoastMeContract
   const RoastMeContract = await ethers.getContractFactory("RoastMeContract");
@@ -23,7 +23,7 @@ export async function deployContractsFixture() {
     owner.address,
     await pointsContract.getAddress(),
     await badgesContract.getAddress()
-  );
+  ) as any;
 
   // Deploy ChainReactionContract
   const ChainReactionContract = await ethers.getContractFactory("ChainReactionContract");
@@ -31,7 +31,7 @@ export async function deployContractsFixture() {
     owner.address,
     await pointsContract.getAddress(),
     await badgesContract.getAddress()
-  );
+  ) as any;
 
   // Deploy IcebreakerContract
   const IcebreakerContract = await ethers.getContractFactory("IcebreakerContract");
@@ -39,7 +39,7 @@ export async function deployContractsFixture() {
     owner.address,
     await pointsContract.getAddress(),
     await badgesContract.getAddress()
-  );
+  ) as any;
 
   // Authorize contracts in VhibesPoints
   await pointsContract.authorizeContract(await roastContract.getAddress());
@@ -65,7 +65,7 @@ export async function deployContractsFixture() {
 
   // Deploy VhibesAdmin
   const VhibesAdmin = await ethers.getContractFactory("VhibesAdmin");
-  const vhibesAdmin = await VhibesAdmin.deploy(owner.address);
+  const vhibesAdmin = (await VhibesAdmin.deploy(owner.address)) as any;
 
   // Set contracts in VhibesAdmin
   await vhibesAdmin.setContracts(

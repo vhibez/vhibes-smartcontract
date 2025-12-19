@@ -89,7 +89,7 @@ describe("Integration Tests", function () {
       await roastContract.connect(user1).submitRoast("ipfs://1", "ipfs://1");
 
       // 2. Chain Reaction Activity
-      await chainReactionContract.connect(user1).createChallenge("Challenge", "ipfs://c", 100);
+      await chainReactionContract.connect(user1).startChallenge("Challenge", "ipfs://c");
 
       // 3. Icebreaker Activity
       await vhibesAdmin.connect(owner).createIcebreakerCategory("Cat", "Desc");

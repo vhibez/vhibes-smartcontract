@@ -230,4 +230,54 @@ describe("VhibesAdmin", function () {
       expect(await badgesContract.authorizedMinters(user1.address)).to.be.false;
     });
   });
+
+  describe("Edge Cases and Error Handling", function () {
+    it("Should revert when non-admin tries to call admin functions", async function () {
+      const { vhibesAdmin, user1 } = await loadFixture(deployContractsFixture);
+
+      await expect(
+        vhibesAdmin.connect(user1).updateRoastMePoints(1, 1, 1)
+      ).to.be.revertedWith("Not authorized");
+
+      await expect(
+        vhibesAdmin.connect(user1).incrementTempTest()
+      ).to.be.revertedWith("Not authorized");
+    });
+
+    it("Should revert when providing invalid addresses", async function () {
+      const { vhibesAdmin, owner } = await loadFixture(deployContractsFixture);
+
+      await expect(
+        vhibesAdmin.connect(owner).authorizeAdmin(ethers.ZeroAddress)
+      ).to.be.revertedWith("Invalid admin address");
+
+      await expect(
+        vhibesAdmin.connect(owner).deauthorizeAdmin(ethers.ZeroAddress)
+      ).to.be.revertedWith("Invalid admin address");
+    });
+
+    it("Should handle multiple admin authorizations correctly", async function () {
+      const { vhibesAdmin, owner, user1, user2 } = await loadFixture(deployContractsFixture);
+
+      await vhibesAdmin.connect(owner).authorizeAdmin(user1.address);
+      await vhibesAdmin.connect(owner).authorizeAdmin(user2.address);
+
+      // Both should be able to act
+      await vhibesAdmin.connect(user1).incrementTempTest();
+      await vhibesAdmin.connect(user2).incrementTempTest();
+
+      expect(await vhibesAdmin.getTempTestCount()).to.equal(2);
+    });
+
+    it("Should revert if deauthorized admin tries to act", async function () {
+      const { vhibesAdmin, owner, user1 } = await loadFixture(deployContractsFixture);
+
+      await vhibesAdmin.connect(owner).authorizeAdmin(user1.address);
+      await vhibesAdmin.connect(owner).deauthorizeAdmin(user1.address);
+
+      await expect(
+        vhibesAdmin.connect(user1).incrementTempTest()
+      ).to.be.revertedWith("Not authorized");
+    });
+  });
 });

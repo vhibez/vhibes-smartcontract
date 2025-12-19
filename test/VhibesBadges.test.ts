@@ -55,7 +55,7 @@ describe("VhibesBadges - Badge Requirement Checks", function () {
         "Vhibes Badges",
         "VHIBES",
         "https://vhibes.vercel.app/badges/"
-      );
+      ) as any;
 
       // Set badge URI
       await newBadgesContract.connect(owner).setBadgeURIs(
@@ -170,7 +170,7 @@ describe("VhibesBadges - Badge Requirement Checks", function () {
         "Vhibes Badges",
         "VHIBES",
         "https://vhibes.vercel.app/badges/"
-      );
+      ) as any;
 
       // Set badge URI
       await newBadgesContract.connect(owner).setBadgeURIs(
@@ -274,7 +274,7 @@ describe("VhibesBadges - Badge Requirement Checks", function () {
         "Vhibes Badges",
         "VHIBES",
         "https://vhibes.vercel.app/badges/"
-      );
+      ) as any;
 
       // Set badge URI
       await newBadgesContract.connect(owner).setBadgeURIs(
@@ -459,7 +459,7 @@ describe("VhibesBadges - Badge Requirement Checks", function () {
         "Vhibes Badges",
         "VHIBES",
         "https://vhibes.vercel.app/badges/"
-      );
+      ) as any;
 
       // Set badge URI
       await newBadgesContract.connect(owner).setBadgeURIs(
